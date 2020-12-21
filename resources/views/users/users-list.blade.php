@@ -3,12 +3,12 @@
     <div class="container">
         <h2 class="mb-4">User Lists</h2>
         <div class="form-inline mb-3">
-            <input type="text" placeholder="Name" class="form-control mr-2">
-            <input type="text" placeholder="Email" class="form-control mr-2">
-            <input type="text" placeholder="Create Form" class="form-control mr-2">
-            <input type="text" placeholder="Create To" class="form-control mr-4">
-            <button class="btn btn-success ml-2">Search</button>
-            <button class="btn btn-success ml-2">Add</button>
+            <input type="text" placeholder="Name" class="form-control mr-2 mb-2 col-lg-2 col-md-4">
+            <input type="text" placeholder="Email" class="form-control mr-2 mb-2 col-lg-2 col-md-4">
+            <input type="text" placeholder="Create Form" class="form-control mb-2 mr-2 col-lg-2 col-md-4">
+            <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-4">
+            <button class="btn btn-success mr-2 mb-2  col-lg-1 col-md-2">Search</button>
+            <button class="btn btn-success mr-2 mb-2 col-lg-1 col-md-2">Add</button>
         </div>
         <ul class="list-group">
             <li class="list-group-item" data-toggle="modal" data-target="#myModal">

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+// use app\contracts\dao\userdao;
 class UserController extends Controller
 {
+    // private $userdao;
+    // __construct(UserDao $userdao){
+    //     $this->userd = userdao;
+    // }
     public function userList(){
         return view('users.users-list');
     }
@@ -34,10 +38,10 @@ class UserController extends Controller
         return view('users.edit-profile');
     }
 
-    // user delete
-    // public function userDelete( ){
-    //     return view('users.user-delete');
-    // }
+    //user delete
+    public function userDelete( ){
+        return view('users.user-delete');
+    }
 
     public function changePassword(){
         return view('users.change-password');

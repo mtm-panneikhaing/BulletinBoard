@@ -4,13 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use App\Contracts\Services\Post\PostServiceInterface;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
-{
-    public function detail( ){
-        $posts = Post::latest()->paginate(5);
-          return view('posts.post-list',[
-            'posts' => $posts
+{   
+
+    private $postInterface;
+
+    public function __construct(PostServiceInterface $postInterface){
+
+        $this->postInterface = $postInterface;
+    }
+
+    public function detail(){
+        $postList = $this->postInterface->getPostList();
+        return view('posts.post-list',[
+            'posts' => $postList
         ]);
     }
 
@@ -18,19 +28,18 @@ class PostController extends Controller
         return view('posts.create-post');
     }
 
-    public function insert( ){
-        $post = new Post;
-        $post -> title = request() -> title;
-        $post -> description = request() -> description;
-        $post -> status = 1;
-        $post -> create_user_id = 1;
-        $post -> updated_user_id = 1;
-        $post -> deleted_user_id = 1;
-        $post -> created_at = now();
-        $post -> updated_at = now();
-        $post -> save();
+    public function insert(Request $request){
+       
+        $this->postInterface->insertPost($request);
         return redirect('/posts');
-         
+
+    }
+
+    public function delete($id){
+       
+        $this->postInterface->deletePost($id);
+        return redirect('/posts');
+
     }
 
     public function add( ){
@@ -38,9 +47,19 @@ class PostController extends Controller
     }
 
     public function confirmPost(Request $request){
-       return view('posts.create-post-confirmation',[
-           'posts' => $request
-       ]);
+
+        $validator = validator(request()->all(),[
+            'title' =>'required',
+            'description' => 'required',
+        ]);
+        
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }
+
+        return view('posts.create-post-confirmation',[
+            'posts' => $request
+        ]);
     }
 
     public function update(){

@@ -1,12 +1,14 @@
 @extends("layouts.app")
 @section("content")
     <div class="container">
-        <input type="text" class="mr-2" placeholder="Search">
-        <a href="#" class="btn btn-primary mr-2">Search</a>
-        <a href="{{url('/posts/add')}}" class="btn btn-primary mr-2">Add</a>
-        <a href="#" class="btn btn-primary mr-2">Upload</a>
-        <a href="#" class="btn btn-primary mr-2">Download</a>
-        <table class="table table-striped mt-3">
+        <div class="form-group row">
+            <input type="text" class="col-lg-3 col-md-12 ml-3 mr-2 mb-2" placeholder="Search">
+            <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Search</a>
+            <a href="{{url('/posts/add')}}" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Add</a>
+            <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Upload</a>
+            <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Download</a>
+        </div>
+        <table class="table table-striped mt-3 ">
             <tr>
                 <th>Post Title</th>
                 <th>Post Description</th>
@@ -17,15 +19,24 @@
             </tr>
             @foreach($posts as $post)
                 <tr>
-                    <td>{{ $post->title }}</td>
+                    <td>{{ $post->title }} {{ $post->id }}</td>
                     <td>{{ $post->description }}</td>
                     <td>used</td>
                     <td>{{ $post->created_at->format('m/d/yy') }}</td>
                     <td><button class="btn btn-success btn-xs"><i class="fas fa-edit"></i> </button></td>
-                    <td><button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button></td>
+                    <td><a href="{{ url("posts/delete/$post->id ") }}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
                 </tr>
+            </div>
             @endforeach
         </table>   
         <div class="row justify-content-center">{{ $posts->links() }}</div>
+        <script>
+            $(document).ready(function () {
+                $(".deleteDialog").click(function () {
+                $('#post').val($(this).data('id'));
+                $('#addBookDialog').modal('show');
+    });
+});
+        </script>
     </div>
 @endsection

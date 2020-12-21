@@ -27,6 +27,8 @@ Route::post('/posts/add/confirm/insert','PostController@insert');
 
 Route::get('/posts/update','PostController@update');
 
+Route::get('/posts/delete/{id}', 'PostController@delete');
+
 Route::get('/users/list','UserController@userList');
 
 Route::get('/users/profile','UserController@userProfile');
