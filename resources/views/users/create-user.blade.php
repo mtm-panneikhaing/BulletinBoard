@@ -6,9 +6,17 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Create User</div>
-
+                @if($errors->any())
+                    <div class="alert alert-warning">
+                        <ol>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ol>
+                    </div>
+                 @endif 
                 <div class="card-body">
-                    <form method="POST" action="#">
+                    <form method="POST" action="{{url('/users/create/confirm')}}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -23,7 +31,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">Email Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" required autocomplete="email">
+                                <input id="email" type="email" class="form-control" name="email" autocomplete="email">
                             </div>
                         </div>
 
@@ -38,7 +46,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirm" required autocomplete="new-password">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -47,7 +55,7 @@
                             <div class="col-md-6">
                                 <!-- <input id="type" type="type" class="form-control @error('type') is-invalid @enderror" name="type"  required autocomplete="email"> -->
 
-                                    <select id="type" class="form-control">
+                                    <select id="type" name="type" class="form-control">
                                         <option value="1">Admin</option>
                                         <option value="2">User</option>
                                         <option value="3">Visitor</option>
@@ -82,8 +90,8 @@
                             <label for="profile" class="col-md-4 col-form-label text-md-right">Profile</label>
 
                             <div class="col-md-6">
-                                <input id="profile" type="file" class="form-control @error('profile') is-invalid @enderror" name="profile"  required autocomplete="profile">
-
+                                <input id="profile" type="file" class="form-control" name="profile"  required autocomplete="profile">
+                                <img id="image" style="width:100px; height:100px;" class="float-right mt-2" />
                             </div>
                         </div>
 
@@ -102,4 +110,17 @@
         </div>
     </div>
 </div>
+<script>
+        document.getElementById("profile").onchange = function () {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image").src = e.target.result;
+        };
+
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+    </script>
 @endsection

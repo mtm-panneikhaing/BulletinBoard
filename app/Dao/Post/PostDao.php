@@ -5,6 +5,7 @@ namespace App\Dao\Post;
 use App\Contracts\Dao\Post\PostDaoInterface;
 
 use App\Post;
+use Auth;
 
 class PostDao implements PostDaoInterface
 {
@@ -27,19 +28,37 @@ class PostDao implements PostDaoInterface
     $post -> title = request() -> title;
     $post -> description = request() -> description;
     $post -> status = 1;
-    $post -> create_user_id = 1;
-    $post -> updated_user_id = 1;
-    $post -> deleted_user_id = 1;
+    $post -> create_user_id = Auth::user()->id;
+    $post -> updated_user_id = Auth::user()->id;
+    $post -> deleted_user_id = Auth::user()->id;
     $post -> created_at = now();
     $post -> updated_at = now();
     $post -> save();
 
   }
 
-  public function deletePost($id){
+  public function deletePost($id)
+  {
     $delete_id = Post::find($id);
     $delete_id->status = 0;
+    $delete_id->deleted_user_id =Auth::user()->id;
     $delete_id->save();
+  }
+
+  //search for update
+  public function searchPost($id)
+  {
+    return $search_id = Post::find($id);
+  }
+
+  //update post
+  public function updatePost($request)
+  {
+    $post = Post::find($request->id);
+    $post->title = $request->title;
+    $post->description = $request->description;
+    return $post->save();
+
   }
 
 }

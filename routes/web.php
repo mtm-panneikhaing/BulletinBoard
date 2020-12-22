@@ -25,15 +25,20 @@ Route::post('/posts/add/confirm','PostController@confirmPost');
 
 Route::post('/posts/add/confirm/insert','PostController@insert');
 
-Route::get('/posts/update','PostController@update');
+Route::get('/posts/update/{id}','PostController@update');
+
+Route::post('/posts/update/confirm','PostController@updateConfirm');
+
+Route::post('/posts/update/confirm/modify','PostController@updatePost');
 
 Route::get('/posts/delete/{id}', 'PostController@delete');
 
+//users
 Route::get('/users/list','UserController@userList');
 
 Route::get('/users/profile','UserController@userProfile');
 
-Route::get('/users/confirm','UserController@userConfirm');
+Route::post('/users/create/confirm','UserController@userConfirm');
 
 Route::get('/users/create','UserController@create');
 

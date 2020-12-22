@@ -8,62 +8,26 @@
             <input type="text" placeholder="Create Form" class="form-control mb-2 mr-2 col-lg-2 col-md-4">
             <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-4">
             <button class="btn btn-success mr-2 mb-2  col-lg-1 col-md-2">Search</button>
-            <button class="btn btn-success mr-2 mb-2 col-lg-1 col-md-2">Add</button>
+            @if(Auth::user()->type == 0)
+                <a href="/users/create" class="btn btn-success mr-2 mb-2 col-lg-1 col-md-2">Add</a>
+            @endif
         </div>
-        <ul class="list-group">
-            <li class="list-group-item" data-toggle="modal" data-target="#myModal">
-                <img src="../images/dog.jpg" alt="This is image" class="rounded-circle" height="40" width="40"
-                >
-                Name
-                <!-- Delete User -->
-                <a href="{{ url('/users/delete') }}" class="float-right">Delete</a>
-            </li>
-            <!-- The Modal -->
-            <div class="modal fade" id="myModal">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                    <h4 class="modal-title">Pann Ei Khaing</h4>
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                    </div>
-                    
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                      <table class="table table-striped">
-                        <tr>
-                            <td>Phone No</td>
-                            <td>097777777</td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td>pann@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <td>Birth Date</td>
-                            <td>6 August</td>
-                        </tr>
-                        <tr>
-                            <td>Created Date</td>
-                            <td>6 August</td>
-                        </tr>
-                        <tr>
-                            <td>Updated Date</td>
-                            <td>6 August</td>
-                        </tr>
-                      </table>
-                    </div>
-                    
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                    
-                </div>
-                </div>
-            </div>
-  
-        </ul>
+        
+        <table class="table table-striped">
+            <tr>
+                <th>Profile</th>
+                <th>Name</th>
+                <th class="float-right">Delete</th>
+            </tr>
+            @foreach($users as $user)
+                <tr>
+                    <td> 
+                        <img src="../images/{{ $user->profile }}" alt="This is image" class="rounded-circle" height="40" width="40">
+                    </td>
+                    <td>{{ $user->name }}</td>
+                    <td class="float-right"><a href="{{ url("users/delete/$user->id ") }}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
+                </tr>
+            @endforeach
+        </table>
     </div>
 @endsection

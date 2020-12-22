@@ -2,9 +2,9 @@
 @section("content")
     <div class="container">
         <div class="row ">
-            <div class="col"><h3>Create User Confirmation</h3></div>
+            <div class="col"><h3>Create User Confirmation{{users->profile}}</h3></div>
             <div class="col">
-                <img src="../images/dog.jpg" alt="profile" style="width:100px; height:100px">
+                <img src="../images/{{ users->profile }}" alt="profile" style="width:100px; height:100px">
             </div>
         </div>
         <div class="col-6">

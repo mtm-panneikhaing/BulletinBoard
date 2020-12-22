@@ -31,10 +31,16 @@
                 </a>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href="{{ url('/') }}" class="nav-link">User 1</a>
+                        @auth
+                            @if(Auth::user()->type == 0)
+                                <a href="{{ url('/users/list') }}" class="nav-link">Users</a>
+                            @endif
+                        @endauth
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('/') }}" class="nav-link">User 2</a>
+                        @auth
+                            <a href="{{ url('/') }}" class="nav-link">User</a>
+                        @endauth
                     </li>
                 </ul>
 
@@ -57,7 +63,7 @@
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <!-- <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a> -->
                                 </li>
                             @endif
                         @else

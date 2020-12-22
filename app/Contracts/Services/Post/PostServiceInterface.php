@@ -13,4 +13,10 @@ interface PostServiceInterface
   //delete Post
   public function deletePost($id);
 
+  //search Post 
+  public function searchPost($id);
+
+  //updatePost
+  public function updatePost($request);
+
 }

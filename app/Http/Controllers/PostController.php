@@ -15,6 +15,7 @@ class PostController extends Controller
     public function __construct(PostServiceInterface $postInterface){
 
         $this->postInterface = $postInterface;
+        $this->middleware('auth')->except(['detail']);
     }
 
     public function detail(){
@@ -42,7 +43,7 @@ class PostController extends Controller
 
     }
 
-    public function add( ){
+    public function add(){
         return view('posts.add-post');
     }
 
@@ -62,7 +63,33 @@ class PostController extends Controller
         ]);
     }
 
-    public function update(){
-        return view('posts.update-post');
+    public function update($id){
+        $updatePost = $this->postInterface->searchPost($id);
+        return view('posts.update-post',[
+            'post' => $updatePost 
+        ]);
     }
+
+    public function updateConfirm(Request $request){
+
+        // $validator = validator(request()->all(),[
+        //     'title' =>'required',
+        //     'description' => 'required',
+        // ]);
+        
+        // if($validator->fails()){
+        //     return back()->withErrors($validator);
+        // }
+
+        return view('posts.update-post-confirmation',[
+            'posts' => $request
+        ]);
+    }
+
+    public function updatePost(Request $request){
+
+        $this->postInterface->updatePost($request);
+        return redirect('/posts');
+    }
+
 }

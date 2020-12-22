@@ -4,9 +4,11 @@
         <div class="form-group row">
             <input type="text" class="col-lg-3 col-md-12 ml-3 mr-2 mb-2" placeholder="Search">
             <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Search</a>
-            <a href="{{url('/posts/add')}}" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Add</a>
-            <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Upload</a>
-            <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Download</a>
+            @auth
+                <a href="{{url("/posts/add")}}" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Add</a>
+                <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Upload</a>
+                <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Download</a>
+            @endauth
         </div>
         <table class="table table-striped mt-3 ">
             <tr>
@@ -14,17 +16,29 @@
                 <th>Post Description</th>
                 <th>Post Used</th>
                 <th>Post Date</th>
-                <th>Edit </th>
-                <th>Delete</th>
+                @auth
+                    <th>Edit </th>
+                    <th>Delete</th>
+                @endauth
             </tr>
             @foreach($posts as $post)
                 <tr>
-                    <td>{{ $post->title }} {{ $post->id }}</td>
+                    <td>{{ $post->title }}</td>
                     <td>{{ $post->description }}</td>
-                    <td>used</td>
+                    <td>{{ $post->user->name}}</td>
                     <td>{{ $post->created_at->format('m/d/yy') }}</td>
-                    <td><button class="btn btn-success btn-xs"><i class="fas fa-edit"></i> </button></td>
-                    <td><a href="{{ url("posts/delete/$post->id ") }}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
+                    @auth
+                        <td>
+                            @if(Auth::user()->id == $post->create_user_id )
+                                <a href="{{ url("posts/update/$post->id") }}" class="btn btn-success btn-xs"><i class="fas fa-edit"></i> </a>
+                            @endif
+                        </td>
+                        <td>
+                            @if(Auth::user()->id == $post->create_user_id )
+                                <a href="{{ url("posts/delete/$post->id ") }}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                            @endif
+                        </td>
+                    @endauth
                 </tr>
             </div>
             @endforeach

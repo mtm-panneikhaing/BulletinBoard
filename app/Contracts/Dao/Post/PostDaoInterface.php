@@ -12,4 +12,10 @@ interface PostDaoInterface
 
     //delete Post
     public function deletePost($id);
+
+    //search Post
+    public function searchPost($id);
+
+    //update Post
+    public function updatePost($request);
 }

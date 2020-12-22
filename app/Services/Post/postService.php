@@ -40,4 +40,16 @@ class PostService implements PostServiceInterface
   {
     return $this->postDao->deletePost($id);
   }
+
+  //search post
+  public function searchPost($id)
+  {
+    return $this->postDao->searchPost($id);
+  }
+
+  //update post
+  public function updatePost($request)
+  {
+    return $this->postDao->updatePost($request);
+  }
 }

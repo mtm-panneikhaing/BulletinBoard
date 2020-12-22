@@ -2,14 +2,18 @@
 @section("content")
     <div class="container">
         <h2 class="mb-4">Update Post </h2>
-        <form action="url('update')" method="post">
+        <form action="{{url('/posts/update/confirm')}}" method="post">
+            @csrf
+            <input type="hidden" id="title" class="form-control mt-2" value="{{ $post->id }}" name="id">
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" id="title" class="form-control mt-2">
+                <input type="text" id="title" class="form-control mt-2" value="{{ $post->title }}" name="title">
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
-                <textarea type="text" id="description" class="form-control mt-2" ></textarea>
+                <label for="description"></label>
+                <textarea type="text" id="description" class="form-control mt-2" name="description">
+                    {{ $post->description }}
+                </textarea>
             </div>
             <div class="form-group">
             <div class="custom-control custom-switch">
@@ -19,7 +23,6 @@
             </div>
             <input type="submit" value="update" class="btn btn-primary mt-2 mr-2">
             <input type="reset" value="Clear" id="clear" class="btn btn-danger mt-2">
-            
         </form>
 
     </div>

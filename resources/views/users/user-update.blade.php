@@ -35,10 +35,10 @@
                                 <div class="col-md-6">
                                     <!-- <input id="type" type="type" class="form-control @error('type') is-invalid @enderror" name="type" value="{{ old('email') }}" required autocomplete="email"> -->
 
-                                        <select id="type" class="form-control">
-                                            <option value="1">Admin</option>
-                                            <option value="2">User</option>
-                                            <option value="3">Visitor</option>
+                                        <select id="type" class="form-control" name="type">
+                                            <option value="0">Admin</option>
+                                            <option value="1">User</option>
+                                            <option value="2">Visitor</option>
                                         </select>
                                 </div>
                             </div>
