@@ -39,7 +39,7 @@
                     </li>
                     <li class="nav-item">
                         @auth
-                            <a href="{{ url('/') }}" class="nav-link">User</a>
+                            <a href="{{ url('/users/profile') }}" class="nav-link">User</a>
                         @endauth
                     </li>
                 </ul>

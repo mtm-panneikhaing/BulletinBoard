@@ -28,4 +28,16 @@ class UserService implements UserServiceInterface
   {
     return $this->userDao->getUserList();
   }
+
+  //insert user
+  public function userInsert($request)
+  {
+    return $this->userDao->userInsert($request);
+  }
+
+  //delete user
+  public function userDelete($id)
+  {
+    return $this->uesrDao->userDelete($id);
+  }
 }

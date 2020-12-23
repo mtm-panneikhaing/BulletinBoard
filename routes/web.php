@@ -38,15 +38,17 @@ Route::get('/users/list','UserController@userList');
 
 Route::get('/users/profile','UserController@userProfile');
 
+Route::get('/users/create','UserController@create');
+
 Route::post('/users/create/confirm','UserController@userConfirm');
 
-Route::get('/users/create','UserController@create');
+Route::post('users/create/confirm/insert','UserController@userInsert');
 
 Route::get('/users/detail','UserController@userDetail');
 
 Route::get('/users/update','UserController@userUpdate');
 
-Route::get('/users/delete','UserController@userDelete');
+Route::get('/users/delete/{$id}','UserController@delete');
 
 Route::get('/users/edit','UserController@editProfile');
 

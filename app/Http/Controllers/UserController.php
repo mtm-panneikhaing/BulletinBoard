@@ -41,35 +41,33 @@ class UserController extends Controller
             'phone' => 'required',
             'dob' => 'required',
             'address' => 'required',
-            // 'profile' => 'image|mimes:jpeg,jpg,png|size:2000',
-        ]);
-
-        // $destinationPath = 'images/'; // upload path
-        // $profileImage = time() . "." . $files->getClientOriginalExtension();
-        // $files->move($destinationPath, $profileImage);
-
-        // $imageName = time().'.'.request()->profile->extension();  
-   
-        // $request->image->move(public_path('images'), $imageName);
-        request()->validate([ 
-
             'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ]);
 
-  
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }else{
+            if($request->password == $request->password_confirm){
+                $imageName = time().'.'.$request->profile->extension();  
+                $request->profile->move(public_path('images'), $imageName);
 
-        $imageName = time().'.'.request()->profile->getClientOriginalExtension();
+                return view('users.confirm-user',[
+                    'user' => $request,
+                    'profile' => $imageName,
+                ]);
+            }else{
+                return back()->withErrors('Comfirm Password');
+            }
+        }
 
-  
+    }
 
-        request()->image->move(public_path('images'), $imageName);
+    public function userInsert(request $request){
+        $this->userInterface->userInsert($request);
 
-
-        return view('users.confirm-user',[
-            'users' => $request,
-            'profile' => $imageName,
-        ]);
+        return redirect('/users/list')
+                ->with('info','Created User');
     }
     
     public function userProfile(){
@@ -89,8 +87,12 @@ class UserController extends Controller
     }
 
     //user delete
-    public function userDelete( ){
-        return view('users.user-delete');
+    public function delete($id){
+
+        $this->userInterface->userDelete($id);
+        
+        return redirect()->back()
+            ->with('info','User Deleted');
     }
 
     public function changePassword(){

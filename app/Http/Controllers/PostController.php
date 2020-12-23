@@ -39,7 +39,8 @@ class PostController extends Controller
     public function delete($id){
        
         $this->postInterface->deletePost($id);
-        return redirect('/posts');
+        return redirect('/posts')
+        ->with('info','Post  Deleted');
 
     }
 

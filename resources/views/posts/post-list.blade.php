@@ -1,6 +1,11 @@
 @extends("layouts.app")
 @section("content")
     <div class="container">
+        @if(session('info'))
+            <div class="alert alert-info">
+                {{ session('info') }}
+            </div>
+        @endif
         <div class="form-group row">
             <input type="text" class="col-lg-3 col-md-12 ml-3 mr-2 mb-2" placeholder="Search">
             <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Search</a>
@@ -14,8 +19,8 @@
             <tr>
                 <th>Post Title</th>
                 <th>Post Description</th>
-                <th>Post Used</th>
-                <th>Post Date</th>
+                <th>Posted User</th>
+                <th>Posted Date</th>
                 @auth
                     <th>Edit </th>
                     <th>Delete</th>
