@@ -31,7 +31,9 @@ Route::post('/posts/update/confirm','PostController@updateConfirm');
 
 Route::post('/posts/update/confirm/modify','PostController@updatePost');
 
-Route::get('/posts/delete/{id}', 'PostController@delete');
+Route::post('/posts/delete', 'PostController@delete');
+
+Route::post('/posts/search', 'PostController@search');
 
 //users
 Route::get('/users/list','UserController@userList');
@@ -48,11 +50,13 @@ Route::get('/users/detail','UserController@userDetail');
 
 Route::get('/users/update','UserController@userUpdate');
 
-Route::get('/users/delete/{$id}','UserController@delete');
+Route::post('/users/delete','UserController@delete');
 
 Route::get('/users/edit','UserController@editProfile');
 
 Route::get('/changePassword','UserController@changePassword');
+
+Route::post('/users/password/change','UserController@passwordChange');
 
 Route::get('/changePassword/confirm','UserController@passwordConfirm');
 

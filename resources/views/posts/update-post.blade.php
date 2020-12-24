@@ -17,12 +17,12 @@
             </div>
             <div class="form-group">
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input mt-2" id="status" checked>
+                <input type="checkbox" class="custom-control-input mt-2" id="status" onchange="document.getElementById('submit').disabled = !this.checked;">
                 <label class="custom-control-label" for="status">Status</label>
             </div>
             </div>
-            <input type="submit" value="update" class="btn btn-primary mt-2 mr-2">
-            <input type="reset" value="Clear" id="clear" class="btn btn-danger mt-2">
+            <input type="submit" value="update" class="btn btn-primary mt-2 mr-2" id="submit"> 
+            <input type="reset" value="Clear" id="clear" name="status" class="btn btn-danger mt-2">
         </form>
 
     </div>

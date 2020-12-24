@@ -10,8 +10,8 @@ $factory->define(Post::class, function (Faker $faker) {
        'title' => $faker->sentence,
        'description' => $faker->sentence,
        'status' => 1,
-       'create_user_id' => 5,
-       'updated_user_id' => 5,
-       'deleted_user_id' => 5,
+       'create_user_id' => 1,
+       'updated_user_id' => 1,
+       'deleted_user_id' => 1,
     ];
 });

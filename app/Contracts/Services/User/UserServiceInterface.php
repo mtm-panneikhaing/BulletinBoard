@@ -12,4 +12,7 @@ interface UserServiceInterface
 
   //user delete
   public function userDelete($id);
+
+  //password change
+  public function  passwordChange($password);
 }

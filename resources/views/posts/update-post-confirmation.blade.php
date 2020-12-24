@@ -23,7 +23,11 @@
                     <label for="description">{{ $posts->description }}</label>
                 </div>
             </div>
-            <input type="submit" class="btn btn-primary" value="Create">
+            <div class="custom-control custom-switch mb-5">
+                <input type="checkbox" class="custom-control-input mt-2" id="status" onchange="document.getElementById('submit').disabled = !this.checked;" >
+                <label class="custom-control-label" for="status">Status</label>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Create" id="submit">
             <a href="{{ url('/posts') }}" class="btn btn-danger ml-4"> Cancel</a>
         </form>
     </div>

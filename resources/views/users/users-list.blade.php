@@ -24,7 +24,7 @@
             <th>Email</th>
             <th>Created User</th>
             <th>Phone</th>
-            <th>Birth Date</th>
+            <th>Date Of Bith</th>
             <th>Address</th>
             <th>Created Date</th>
             <th>Updated Date</th>
@@ -63,12 +63,16 @@
             <td>{{ $user->address }}</td>
             <td>{{ $user->created_at->format('yy-m-d') }}</td>
             <td>{{ $user->updated_at->format('yy-m-d') }}</td>
-            <td class="float-right"><a href="{{ url("users/delete/$user->id")}}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
+            <td class="float-right">
+                <a data-toggle="modal" data-target="#deleteConfirm"  class="delete btn btn-danger"  data-id="{{ $user->id }}">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </td>
         </tr>
         @endforeach
     </table>
-      <!-- Modal -->
-      <div class="modal flade" id="myModal" role="dialog">
+        <!-- User Detail Modal -->
+        <div class="modal flade" id="myModal" role="dialog">
             <div class="modal-dialog">
             
                 <!-- Modal content-->
@@ -104,7 +108,37 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal flade" id="deleteConfirm" role="dialog">
+            <div class="modal-dialog">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title center">Delete Confirmation</h4>    
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <form action="{{ url('users/delete')}}" method="post">
+                            @csrf 
+                            <div class="mb-4">
+                                <input type="hidden" id="id" name="id" value="">
+                                <h5>Are you sure to delete?</h5>
+                            </div>
+                            <div class="mt-4">
+                                <button class="btn btn-primary ml-4" data-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-danger mr-4" value="Yes"></button>
+                            </div>
+                        </form>
+                        
+                        
                     </div>
                 </div>
             
@@ -126,6 +160,11 @@
             $(".modal-body #dob").text( $(this).data('dob') );
         });
     });
-   
+
+    $(document).ready(function(){
+        $(document).on("click", ".delete",function(){
+            $(".modal-body #id").val( $(this).data('id') );
+        });
+    });   
 </script>
 @endsection

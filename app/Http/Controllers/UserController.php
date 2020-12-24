@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 use App\Contracts\Services\User\UserServiceInterface;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -87,10 +89,10 @@ class UserController extends Controller
     }
 
     //user delete
-    public function delete($id){
-
+    public function delete(Request $request){
+        $id = request()->id;
         $this->userInterface->userDelete($id);
-        
+       
         return redirect()->back()
             ->with('info','User Deleted');
     }
@@ -99,6 +101,39 @@ class UserController extends Controller
         return view('users.change-password');
     }
 
+    public function passwordChange(Request $request){
+
+        $validator = validator(request()->all(),[
+            "old_password" =>'required',
+            "new_password" =>'required|string|min:6',
+            "con_new_password" =>'required',
+
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }else{
+            if (Hash::check($request->old_password, Auth::user()->password)) {
+                // The old password matches the hash in the database
+                if((request()->new_password == request()->con_new_password) &&
+                    (request()->old_password != request()->new_password)){
+
+                //update password into database
+                $password = request()->new_password;
+                $this->userInterface->passwordChange($password);
+                
+                return redirect('users/detail')
+                                ->with('info','Password Changed');
+
+                }else{
+                     return back()->withErrors('Comfirm Password');
+                } 
+            }
+            else{
+                return back()->withErrors('Comfirm Password');
+            }
+        }
+    }
     public function passwordConfirm(){
         return view('users.confirm-password');
     }

@@ -6,10 +6,14 @@ use App\Post;
 use Illuminate\Http\Request;
 use App\Contracts\Services\Post\PostServiceInterface;
 use Illuminate\Support\Facades\Validator;
-
+/**
+ * 
+ * @author PEK
+ */
 class PostController extends Controller
 {   
 
+    /** $postInterface */
     private $postInterface;
 
     public function __construct(PostServiceInterface $postInterface){
@@ -29,6 +33,7 @@ class PostController extends Controller
         return view('posts.create-post');
     }
 
+
     public function insert(Request $request){
        
         $this->postInterface->insertPost($request);
@@ -36,8 +41,10 @@ class PostController extends Controller
 
     }
 
-    public function delete($id){
-       
+    public function delete(Request $request){
+
+        $id = request()->id;
+
         $this->postInterface->deletePost($id);
         return redirect('/posts')
         ->with('info','Post  Deleted');
@@ -51,8 +58,9 @@ class PostController extends Controller
     public function confirmPost(Request $request){
 
         $validator = validator(request()->all(),[
-            'title' =>'required',
+            'title' =>'required|unique:posts',
             'description' => 'required',
+            'status' => 'accepted',
         ]);
         
         if($validator->fails()){
@@ -73,14 +81,14 @@ class PostController extends Controller
 
     public function updateConfirm(Request $request){
 
-        // $validator = validator(request()->all(),[
-        //     'title' =>'required',
-        //     'description' => 'required',
-        // ]);
+        $validator = validator(request()->all(),[
+            'title' =>'required',
+            'description' => 'required',
+        ]);
         
-        // if($validator->fails()){
-        //     return back()->withErrors($validator);
-        // }
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }
 
         return view('posts.update-post-confirmation',[
             'posts' => $request
@@ -91,6 +99,15 @@ class PostController extends Controller
 
         $this->postInterface->updatePost($request);
         return redirect('/posts');
+    }
+
+    public function search(Request $request){
+
+        $posts = $this->postInterface->search($request);
+
+        return view('posts.post-list',[
+            'posts' => $posts
+        ]);
     }
 
 }

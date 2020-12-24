@@ -38,6 +38,12 @@ class UserService implements UserServiceInterface
   //delete user
   public function userDelete($id)
   {
-    return $this->uesrDao->userDelete($id);
+    return $this->userDao->userDelete($id);
+  }
+
+  //password change
+  public function  passwordChange($password)
+  {
+    return $this->userDao->passwordChange($password);
   }
 }

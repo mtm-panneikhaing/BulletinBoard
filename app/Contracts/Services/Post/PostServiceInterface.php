@@ -19,4 +19,7 @@ interface PostServiceInterface
   //updatePost
   public function updatePost($request);
 
+  //search
+  public function search($request);
+
 }

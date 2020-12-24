@@ -52,4 +52,10 @@ class PostService implements PostServiceInterface
   {
     return $this->postDao->updatePost($request);
   }
+
+  //search
+  public function search($request)
+  {
+    return $this->postDao->search($request);
+  }
 }
