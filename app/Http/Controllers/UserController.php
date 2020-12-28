@@ -32,7 +32,7 @@ class UserController extends Controller
         return view('users.create-user');
     }
 
-    public function userConfirm(request $request){
+    public function userConfirm(Request $request){
 
         $validator = validator(request()->all(),[
             'name' =>'required',
@@ -80,12 +80,45 @@ class UserController extends Controller
         return view('users.user-detail');
     }
 
-    public function userUpdate(){
-        return view('users.user-update');
-    }
+    
 
     public function editProfile(){
         return view('users.edit-profile');
+    }
+
+    public function updateConfirm(Request $request){
+
+        $validator = validator(request()->all(),[
+            'name' =>'required',
+            'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
+            'type' => 'required',
+            'phone' => 'required',
+            'dob' => 'required',
+            'address' => 'required',
+            'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator);
+        }else{
+
+            $imageName = time().'.'.$request->profile->extension();  
+            $request->profile->move(public_path('images'), $imageName);
+
+            return view('users.user-update-confirm', [
+                'user' => $request , 
+                'profile' => $imageName
+            ]);
+        }
+       
+    }
+    
+    public function userUpdate(Request $request){
+
+        $this->userInterface->updateUser($request);
+
+        return redirect('/users/profile')
+                ->with('info','Updated');
     }
 
     //user delete
@@ -122,7 +155,7 @@ class UserController extends Controller
                 $password = request()->new_password;
                 $this->userInterface->passwordChange($password);
                 
-                return redirect('users/detail')
+                return  redirect('/users/profile')
                                 ->with('info','Password Changed');
 
                 }else{

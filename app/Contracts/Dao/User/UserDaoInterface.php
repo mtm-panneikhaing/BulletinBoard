@@ -10,6 +10,9 @@ interface UserDaoInterface
   //insert user
   public function userInsert($request);
 
+  //update user
+  public function updateUser($request);
+
   //delete user
   public function userDelete($id);
 

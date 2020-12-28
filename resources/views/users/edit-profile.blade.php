@@ -1,6 +1,15 @@
 @extends("layouts.app")
 @section("content")
 <div class="container">
+@if($errors->any())
+    <div class="alert alert-warning">
+        <ol>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ol>
+    </div>
+@endif 
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -11,9 +20,9 @@
                     </div>
                 </div>    
                 <div class="card-body">
-                    <form method="POST" action="#">
+                    <form method="post" action="{{ url('/users/update/confirm') }}" enctype="multipart/form-data">
                         @csrf
-
+                        <input  type="hidden"  name="id" value={{ Auth::user()->id }}>
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -29,6 +38,20 @@
                                 <input id="email" type="email" class="form-control " name="email" value="{{ Auth::user()->email }}" required autocomplete="email">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="type" class="col-md-4 col-form-label text-md-right">Type</label>
+
+                            <div class="col-md-6">
+                                <!-- <input id="type" type="type" class="form-control @error('type') is-invalid @enderror" name="type"  required autocomplete="email"> -->
+
+                                    <select id="type" name="type" class="form-control" value="{{ Auth::user()->type }}">
+                                        <option value="0">Admin</option>
+                                        <option value="1">User</option>
+                                        <option value="2">Visitor</option>
+                                    </select>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
@@ -56,7 +79,7 @@
                             <label for="profile" class="col-md-4 col-form-label text-md-right">{{ __('Profile') }}</label>
 
                             <div class="col-md-6">
-                                <input id="profile" type="file" class="form-control" name="profile" value="{{ Auth::user()->profile }}" required autocomplete="profile">
+                                <input id="profile" type="file" class="form-control" name="profile" value="{{ Auth::user()->profile }}" autocomplete="profile">
                                 <img id="image" style="width:100px; height:100px;" class="float-right mt-2" />
                             </div>
                         </div>
@@ -67,11 +90,10 @@
                             </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
-                                </button>
+                                <input type="submit" class="btn btn-primary" value="Update">
+                                 
                                 <button type="reset" class="btn btn-danger">
-                                    {{ __('Clear') }}
+                                    Clear
                                 </button>
                             </div>
                         </div>

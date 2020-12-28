@@ -15,6 +15,11 @@
 @extends("layouts.app")
 @section("content")
     <div class="contaier">
+    @if(session('info'))
+        <div class="alert alert-info">
+            {{ session('info') }}
+        </div>
+    @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">

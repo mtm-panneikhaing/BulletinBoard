@@ -10,6 +10,9 @@ interface UserServiceInterface
   //user insert
   public function userInsert($request);
 
+  //update user
+  public function updateUser($request);
+
   //user delete
   public function userDelete($id);
 

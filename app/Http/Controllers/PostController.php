@@ -6,9 +6,12 @@ use App\Post;
 use Illuminate\Http\Request;
 use App\Contracts\Services\Post\PostServiceInterface;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PostsExport;
+use App\Imports\PostsImport;
 /**
  * 
- * @author PEK
+ * @author 
  */
 class PostController extends Controller
 {   
@@ -16,10 +19,32 @@ class PostController extends Controller
     /** $postInterface */
     private $postInterface;
 
+    /**
+     * 
+     * 
+     * */ 
     public function __construct(PostServiceInterface $postInterface){
 
         $this->postInterface = $postInterface;
         $this->middleware('auth')->except(['detail']);
+    }
+
+    public function export(){
+        
+        return Excel::download(new PostsExport, 'posts.xlsx');
+    }
+
+    public function import(){
+
+        // $path1 = request()->file('file')->store('temp'); 
+        // $path=storage_path('app').'/'.$path1;  
+
+        $path = request()->file('file');
+        // $data = \Excel::import(new UsersImport,$path);
+        
+        Excel::import(new PostsImport, $path , 's3');
+        return redirect('/posts')
+            ->with('info','Upload successful');
     }
 
     public function detail(){

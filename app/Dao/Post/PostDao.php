@@ -60,13 +60,17 @@ class PostDao implements PostDaoInterface
     return $post->save();
 
   }
+  /**
+   * 
+   */
   public function search($request)
   {
     // $post = new Post;    
     return Post::where('title', 'LIKE','%' . request()->search . '%')
-                ->join('users','posts.create_user_id' , '=' , 'users.id')
-                ->where('users.name', 'LIKE','%' . request()->search . '%')
-                ->latest()->paginate(5);
+                ->orwhere('description',  'LIKE','%' . request()->search . '%')
+                ->join('users' , 'posts.create_user_id', '=','users.id')
+                ->orwhere('users.name',  'LIKE','%' . request()->search . '%')
+                ->latest('posts.created_at')->paginate(5);
   }
 
 }

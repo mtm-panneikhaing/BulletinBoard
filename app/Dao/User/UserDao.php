@@ -18,9 +18,11 @@ class UserDao implements UserDaoInterface
     return User::where('type','<=',2)->latest()->paginate(5);
   }
 
- 
+ /**
+  * Insert User
+  *@param $request
+  */
   public function userInsert($request){
-    //insert user into database
     $user = new User;
     $user -> name = request() -> name;
     $user -> email = request() -> email;
@@ -38,7 +40,28 @@ class UserDao implements UserDaoInterface
     $user->save();
   }
 
-  //user delete
+  /**
+   * User Update
+   * @param $request 
+   */
+  public function updateUser($request)
+  {
+    $user = User::find($request->id);
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->profile = $request->profile;
+    $user->type = $request->type;
+    $user->phone = $request->phone;
+    $user->address = $request->address;
+    $user->updated_at = now();
+
+    return $user->save();
+  }
+
+  /**
+   * User Delete
+   * @param $id user id
+   */
   public function userDelete($id)
   {
     $delete_id = User::find($id);
@@ -48,7 +71,10 @@ class UserDao implements UserDaoInterface
     $delete_id->save();
   }
 
-  //password change
+  /**
+   * Password Change 
+   * @param $password
+   */
   public function  passwordChange($password){
     Auth::user()->password = bcrypt($password);
     Auth::user()->save();

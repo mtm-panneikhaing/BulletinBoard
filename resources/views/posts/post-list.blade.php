@@ -13,11 +13,16 @@
                 <input type="submit" value="search" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">
                 @auth
                     <a href="{{url("/posts/add")}}" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Add</a>
-                    <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Upload</a>
-                    <a href="#" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Download</a>
+                    
+                    <a href="{{ url('/posts/download') }}" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2">Download</a>
                 @endauth
             </div>
         </form>
+        <form action="{{url('/posts/upload')}}" method="post" enctype="multipart/form-data" >
+            @csrf
+            <input type="file" name="file">
+            <input type="submit" class="btn btn-primary col-lg-2 col-md-6 mr-2 mb-2" value="Upload">
+        </form>     
         <table class="table table-striped mt-3 ">
             <tr>
                 <th>Post Title</th>

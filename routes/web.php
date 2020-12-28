@@ -35,6 +35,10 @@ Route::post('/posts/delete', 'PostController@delete');
 
 Route::post('/posts/search', 'PostController@search');
 
+Route::get('/posts/download', 'PostController@export');
+
+Route::post('/posts/upload', 'PostController@import');
+
 //users
 Route::get('/users/list','UserController@userList');
 
@@ -50,7 +54,11 @@ Route::get('/users/detail','UserController@userDetail');
 
 Route::get('/users/update','UserController@userUpdate');
 
-Route::post('/users/delete','UserController@delete');
+// Route::get('/users/update','UserController@userUpdate');
+
+Route::post('/users/update','UserController@userUpdate');
+
+Route::post('/users/update/confirm','UserController@updateConfirm');
 
 Route::get('/users/edit','UserController@editProfile');
 
