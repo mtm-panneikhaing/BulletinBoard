@@ -12,6 +12,5 @@ $factory->define(Post::class, function (Faker $faker) {
        'status' => 1,
        'create_user_id' => 1,
        'updated_user_id' => 1,
-       'deleted_user_id' => 1,
     ];
 });

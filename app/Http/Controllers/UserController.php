@@ -11,14 +11,22 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    /** userInterface */
     private $userInterface;
     
+    /**
+     * constructor
+     * @param userInterface
+     */
     public function __construct(UserServiceInterface $userInterface){
 
         $this->userInterface = $userInterface;
         $this->middleware('auth');
     } 
 
+    /**
+     * User List 
+     */
     public function userList(){
 
         $userList = $this->userInterface->getUserList();
@@ -28,10 +36,16 @@ class UserController extends Controller
         ]);
     }
     
+    /**
+     * Create user view
+     */
     public function create(){
         return view('users.create-user');
     }
 
+    /**
+     * User confirmation 
+     */
     public function userConfirm(Request $request){
 
         $validator = validator(request()->all(),[
@@ -39,9 +53,6 @@ class UserController extends Controller
             'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
             'password' => 'required', 'string', 'min:8', 'confirmed',
             'password_confirm' => 'required',
-            'type' => 'required',
-            'phone' => 'required',
-            'dob' => 'required',
             'address' => 'required',
             'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
@@ -51,7 +62,7 @@ class UserController extends Controller
             return back()->withErrors($validator);
         }else{
             if($request->password == $request->password_confirm){
-                $imageName = time().'.'.$request->profile->extension();  
+                $imageName = time().'.'.$request->profile->extension();
                 $request->profile->move(public_path('images'), $imageName);
 
                 return view('users.confirm-user',[
@@ -65,36 +76,46 @@ class UserController extends Controller
 
     }
 
+    /**
+     * Insert user into database
+     * @param $request
+     */
     public function userInsert(request $request){
+
         $this->userInterface->userInsert($request);
 
         return redirect('/users/list')
                 ->with('info','Created User');
     }
     
+    /**
+     * User Profile
+     */
     public function userProfile(){
         return view('users.user-profile');
     }
 
-    public function userDetail(){
-        return view('users.user-detail');
-    }
+    // public function userDetail(){
+    //     return view('users.user-detail');
+    // }
 
-    
-
+    /**
+     * edit profile view
+     */
     public function editProfile(){
         return view('users.edit-profile');
     }
 
+    /**
+     * User update confirmation
+     * @param $request
+     */
     public function updateConfirm(Request $request){
 
         $validator = validator(request()->all(),[
-            'name' =>'required',
+            'name' =>'required','unique:users',
             'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
             'type' => 'required',
-            'phone' => 'required',
-            'dob' => 'required',
-            'address' => 'required',
             'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -113,6 +134,10 @@ class UserController extends Controller
        
     }
     
+    /**
+     * Update user into database
+     * @param $request
+     */
     public function userUpdate(Request $request){
 
         $this->userInterface->updateUser($request);
@@ -121,8 +146,11 @@ class UserController extends Controller
                 ->with('info','Updated');
     }
 
-    //user delete
-    public function delete(Request $request){
+    /**
+     * Delete user 
+     * @param $request
+     */
+    public function userDelete(Request $request){
         $id = request()->id;
         $this->userInterface->userDelete($id);
        
@@ -130,10 +158,24 @@ class UserController extends Controller
             ->with('info','User Deleted');
     }
 
+    /**
+     * Change password view
+     */
     public function changePassword(){
         return view('users.change-password');
     }
 
+    /**
+     * Change password confirmation view
+     */
+    public function passwordConfirm(){
+        return view('users.confirm-password');
+    }
+
+    /**
+     * Change password  
+     * @param $request
+     */
     public function passwordChange(Request $request){
 
         $validator = validator(request()->all(),[
@@ -167,7 +209,17 @@ class UserController extends Controller
             }
         }
     }
-    public function passwordConfirm(){
-        return view('users.confirm-password');
+    
+
+    /**
+     * search user
+     * @param request
+     */
+    public function search(Request $request){
+
+        $users = $this->userInterface->userSearch($request);
+        return view('users.users-list',[
+            "users"=>$users
+        ]);
     }
 }

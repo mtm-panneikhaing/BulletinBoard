@@ -17,7 +17,7 @@ Route::get('/','PostController@detail');
 
 Route::get('/posts','PostController@detail');
 
-Route::get('/posts/create','PostController@create');
+// Route::get('/posts/create','PostController@create');
 
 Route::get('/posts/add','PostController@add');
 
@@ -29,7 +29,7 @@ Route::get('/posts/update/{id}','PostController@update');
 
 Route::post('/posts/update/confirm','PostController@updateConfirm');
 
-Route::post('/posts/update/confirm/modify','PostController@updatePost');
+Route::post('/posts/update/modify','PostController@updatePost');
 
 Route::post('/posts/delete', 'PostController@delete');
 
@@ -37,7 +37,9 @@ Route::post('/posts/search', 'PostController@search');
 
 Route::get('/posts/download', 'PostController@export');
 
-Route::post('/posts/upload', 'PostController@import');
+Route::get('/posts/upload', 'PostController@upload');
+
+Route::post('/posts/upload/excel', 'PostController@import');
 
 //users
 Route::get('/users/list','UserController@userList');
@@ -50,13 +52,15 @@ Route::post('/users/create/confirm','UserController@userConfirm');
 
 Route::post('users/create/confirm/insert','UserController@userInsert');
 
-Route::get('/users/detail','UserController@userDetail');
+// Route::get('/users/detail','UserController@userDetail');
 
 Route::get('/users/update','UserController@userUpdate');
 
 // Route::get('/users/update','UserController@userUpdate');
 
 Route::post('/users/update','UserController@userUpdate');
+
+Route::post('/users/delete','UserController@userDelete');
 
 Route::post('/users/update/confirm','UserController@updateConfirm');
 
@@ -67,6 +71,8 @@ Route::get('/changePassword','UserController@changePassword');
 Route::post('/users/password/change','UserController@passwordChange');
 
 Route::get('/changePassword/confirm','UserController@passwordConfirm');
+
+Route::post('/users/search','UserController@search');
 
 Auth::routes();
 

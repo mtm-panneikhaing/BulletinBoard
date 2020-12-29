@@ -17,8 +17,12 @@
             </div>
             <div class="form-group">
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input mt-2" id="status" onchange="document.getElementById('submit').disabled = !this.checked;">
-                <label class="custom-control-label" for="status">Status</label>
+                @if( $post->status == 1)
+                    <input type="checkbox" class="custom-control-input mt-2" id="status" name="status" value="{{ $post->status }}" checked>
+                @elseif ($post->status == 0)  
+                    <input type="checkbox" class="custom-control-input mt-2" id="status" name="status" value="{{ $post->status }}" >
+                @endif  
+                <label class="custom-control-label" for="status">Status </label>
             </div>
             </div>
             <input type="submit" value="update" class="btn btn-primary mt-2 mr-2" id="submit"> 
@@ -26,4 +30,13 @@
         </form>
 
     </div>
+    <!-- <script>
+        $("document").ready(function(){
+            if(document.getElementById("#status1").checked){
+                document.getElementById("#status1").value = 1;
+            }else{
+                document.getElementById("#status1").value = 0;
+            }
+        });
+    </script> -->
 @endsection

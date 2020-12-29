@@ -18,4 +18,7 @@ interface UserDaoInterface
 
   //password change
   public function passwordChange($password);
+
+  //user search
+  public function userSearch($request);
 }

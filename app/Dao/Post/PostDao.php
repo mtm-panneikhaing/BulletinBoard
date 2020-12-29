@@ -18,7 +18,9 @@ class PostDao implements PostDaoInterface
   public function getPostList()
   {
     // return Post::get();
-    return Post::where('status',1)->latest()->paginate(5);
+    return Post::where('status',1)
+                ->where('deleted_user_id')
+                ->latest()->paginate(5);
   }
 
   public function insertPost($request)
@@ -30,7 +32,6 @@ class PostDao implements PostDaoInterface
     $post -> status = 1;
     $post -> create_user_id = Auth::user()->id;
     $post -> updated_user_id = Auth::user()->id;
-    $post -> deleted_user_id = Auth::user()->id;
     $post -> created_at = now();
     $post -> updated_at = now();
     $post -> save();
@@ -42,6 +43,7 @@ class PostDao implements PostDaoInterface
     $delete_id = Post::find($id);
     $delete_id->status = 0;
     $delete_id->deleted_user_id =Auth::user()->id;
+    $delete_id->deleted_at = now();
     $delete_id->save();
   }
 
@@ -54,9 +56,16 @@ class PostDao implements PostDaoInterface
   //update post
   public function updatePost($request)
   {
+    
     $post = Post::find($request->id);
     $post->title = $request->title;
     $post->description = $request->description;
+    if(!$post->status) {
+      $post->status = 1;
+    } else {
+      $post->status = 0;
+    }
+    $post->updated_at = now();
     return $post->save();
 
   }

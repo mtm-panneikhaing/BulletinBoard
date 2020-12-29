@@ -56,21 +56,21 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{{ Auth::user()->phone }}" required autocomplete="phone">
+                                <input id="phone" type="text" class="form-control" name="phone" value="{{ Auth::user()->phone }}"  autocomplete="phone">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
 
                             <div class="col-md-6">
-                                <input id="dob" type="date" class="form-control" name="dob" value="{{ Auth::user()->dob }}" required autocomplete="dob">
+                                <input id="dob" type="date" class="form-control" name="dob" value="{{ Auth::user()->dob }}"  autocomplete="dob">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                             <div class="col-md-6">
-                                <textarea id="address" type="text" class="form-control" name="address" value="{{ Auth::user()->address }}" required autocomplete="address">
+                                <textarea id="address" type="text" class="form-control" name="address" value="{{ Auth::user()->address }}"  autocomplete="address">
                                     {{ Auth::user()->address }}
                                 </textarea>
                             </div>

@@ -15,7 +15,7 @@ class UserDao implements UserDaoInterface
    */
   public function getUserList()
   {
-    return User::where('type','<=',2)->latest()->paginate(5);
+    return User::where('deleted_user_id')->latest()->paginate(5);
   }
 
  /**
@@ -65,7 +65,6 @@ class UserDao implements UserDaoInterface
   public function userDelete($id)
   {
     $delete_id = User::find($id);
-    $delete_id->type = 3;
     $delete_id->deleted_user_id = Auth::user()->id;
     $delete_id->deleted_at = now();
     $delete_id->save();
@@ -78,5 +77,18 @@ class UserDao implements UserDaoInterface
   public function  passwordChange($password){
     Auth::user()->password = bcrypt($password);
     Auth::user()->save();
+  }
+
+  /**
+   * Search User
+   * @param request
+   * return searched user list
+   */
+  public function userSearch($request){
+    return User::where('name', 'LIKE','%' . request()->name . '%')
+                ->where('email',  'LIKE','%' . request()->email . '%')
+                ->where('created_at',  'LIKE','%' . request()->createFrom . '%')
+                ->where('updated_at',  'LIKE','%' . request()->createTo . '%')
+                ->latest( )->paginate(5);
   }
 }

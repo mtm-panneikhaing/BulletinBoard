@@ -25,7 +25,7 @@
                 <div class="form-row">
                     <div class="col-3">
                         <label for="password">Password</label>
-                        <input type="hidden" name="password" value={{ $user->pasword }}>
+                        <input type="hidden" name="password" value="{{ $user->password }}" >
                     </div>
                     <div class="col-6">
                         <label name="password" value="password" type="password" onfocus="this.type='password'">{{ $user->password }}</label>

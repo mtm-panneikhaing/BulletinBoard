@@ -66,7 +66,7 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-right">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"  required autocomplete="phone">
+                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"  autocomplete="phone">
 
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                             <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth</label>
 
                             <div class="col-md-6">
-                                <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob"  required autocomplete="dob">
+                                <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob"  autocomplete="dob">
 
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
                             <div class="col-md-6">
-                                <textarea id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address"  required autocomplete="address"></textarea>
+                                <textarea id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address"  autocomplete="address"></textarea>
 
                             </div>
                         </div>

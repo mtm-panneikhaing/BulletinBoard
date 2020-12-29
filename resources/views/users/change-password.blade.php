@@ -26,7 +26,7 @@
                 <input type="password" id="con_new_password" name="con_new_password" class="form-control">
             </div>
             <input type="submit" value="update" class="btn btn-primary">
-            <input type="submit" value="Cancel" id="clear" class="btn btn-danger">
+            <input type="reset" value="Clear" id="clear" class="btn btn-danger">
             
         </form>
 

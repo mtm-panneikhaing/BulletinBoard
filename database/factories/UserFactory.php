@@ -29,9 +29,7 @@ $factory->define(User::class, function (Faker $faker) {
             "dob" => "2000-12-1",
             "create_user_id" => 1,
             "updated_user_id" => 1,
-            "deleted_user_id" => 1,
             "created_at" => now(),
             "updated_at" => now(),
-            "deleted_at" => now(),
     ];
 });

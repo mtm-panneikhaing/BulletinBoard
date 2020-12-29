@@ -7,16 +7,19 @@
         </div>
     @endif
     <h2 class="mb-4">User Lists</h2>
-    <div class="form-inline mb-3">
-        <input type="text" placeholder="Name" class="form-control mr-2 mb-2 col-lg-2 col-md-4">
-        <input type="text" placeholder="Email" class="form-control mr-2 mb-2 col-lg-2 col-md-4">
-        <input type="text" placeholder="Create Form" class="form-control mb-2 mr-2 col-lg-2 col-md-4">
-        <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-4">
-        <button class="btn btn-success mr-2 mb-2  col-lg-1 col-md-2">Search</button>
-        @if(Auth::user()->type == 0)
-        <a href="/users/create" class="btn btn-success mr-2 mb-2 col-lg-1 col-md-2">Add</a>
-        @endif
-    </div>
+    <form action="{{ url('/users/search') }}" method="post">
+        @csrf
+        <div class="form-inline mb-3">
+            <input type="text" placeholder="Name" class="form-control mr-2 mb-2 col-lg-2 col-md-4" name="name">
+            <input type="email" placeholder="Email" class="form-control mr-2 mb-2 col-lg-2 col-md-4" name="email">
+            <input type="text" placeholder="Create From" class="form-control mb-2 mr-2 col-lg-2 col-md-4" name="createFrom">
+            <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-4" name="createTo">
+            <input type="submit" class="btn btn-success mr-2 mb-2  col-lg-1 col-md-2" value="search">
+            @if(Auth::user()->type == 0)
+            <a href="/users/create" class="btn btn-success mr-2 mb-2 col-lg-1 col-md-2">Add</a>
+            @endif
+        </div>
+    </form>
 
     <table class="table table-striped">
         <tr>
@@ -57,7 +60,7 @@
                 data-address="{{ $user->address }}" >{{ $user->name }}</a>
             </td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user->create_user_id }}</td>
+            <td>{{ $user->user->name }}</td>
             <td>{{ $user->phone }}</td>
             <td>{{ $user->dob }}</td>
             <td>{{ $user->address }}</td>
@@ -82,15 +85,15 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <img src="#profile" alt="" id="profile" width="100" height="100" class="center">
-                        <h4 class="card-title text-center  mb-2" id="name"></h4>
+                        <img src="#profile" alt="" id="profile" width="100" height="100" class="mb-2">
+                        <h4 class="card-title mb-2" id="name"></h4>
                         <table id="classTable" class="table table-striped">
                             <tr>
                                 <td>Email</td>
                                 <td id="email"></td>
                             </tr>
                             <tr>
-                                <td>type</td>
+                                <td>Type</td>
                                 <td id="type"></td>
                             </tr>
                             <tr>
@@ -149,11 +152,11 @@
 <script>
     $(document).ready(function(){
         $(document).on("click", ".detail", function () {
-            $image = $(this).data('profile')
+            $image = $(this).data('profile');
             $(".modal-body #userId").text( $(this).data('id') );
             $(".modal-body #name").text( $(this).data('name') );
             $(".modal-body #email").text( $(this).data('email') );
-            $(".modal-body #profile").attr('src',"/images/".$image);
+            $(".modal-body #profile").attr("src",`/images/${$image}`);
             $(".modal-body #type").text( $(this).data('type') );
             $(".modal-body #phone").text( $(this).data('phone') );
             $(".modal-body #address").text( $(this).data('address') );
