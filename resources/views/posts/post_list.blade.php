@@ -18,7 +18,7 @@
                 @endauth
             </div>
         </form>
-            
+
         <table class="table table-striped mt-3 ">
             <tr>
                 <th>Post Title</th>

@@ -6,7 +6,7 @@
             <ol>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
-                        @endforeach
+                @endforeach
             </ol>
         </div>
     @endif 

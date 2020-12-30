@@ -2,80 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use Illuminate\Http\Request;
 use App\Contracts\Services\Post\PostServiceInterface;
-use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PostsExport;
 use App\Imports\PostsImport;
+use App\Post;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+
 /**
- * 
- * @author 
+ *
+ * @author
  */
 class PostController extends Controller
-{   
+{
 
     /** $postInterface */
     private $postInterface;
 
     /**
-     * constructor 
+     * constructor
      * @param postInterface
-     * */ 
-    public function __construct(PostServiceInterface $postInterface){
-
+     * */
+    public function __construct(PostServiceInterface $postInterface)
+    {
         $this->postInterface = $postInterface;
-        // $this->middleware('auth')->except(['detail']);
     }
 
     /**
      * export csv file
      */
-    public function export(){
-        
+    public function export()
+    {
         return Excel::download(new PostsExport, 'posts.xlsx');
     }
 
     /**
      * Upload link to view
      */
-    public function upload(){
-
-        return view("posts.upload-post");
-
+    public function upload()
+    {
+        return view("posts.post_upload");
     }
 
     /**
      * import csv file
      * @param request
      */
-    public function import(){
-
-        $validator = validator(request()->all(),[
+    public function import()
+    {
+        $validator = validator(request()->all(), [
             'file'=>'required', 'mimes:csv','size:max:500',
-            ]);
+        ]);
         
-        if($validator->fails()){
+        if ($validator->fails()) {
             return back()->withErrors($validator);
-        }else{
-
-            $path = request()->file('file');
-        
-            Excel::import(new PostsImport, $path , 's3');
-            return redirect('/posts')
-                ->with('info','Upload successful');
         }
 
+        $path = request()->file('file');
+        
+        Excel::import(new PostsImport, $path, 's3');
+        return redirect('/posts')
+            ->with('info', 'Upload successful');
     }
 
     /**
-     * post detail 
+     * post detail
      */
-    public function detail(){
-
+    public function detail()
+    {
         $postList = $this->postInterface->getPostList();
-        return view('posts.post-list',[
+        return view('posts.post_list', [
             'posts' => $postList
         ]);
     }
@@ -83,16 +80,16 @@ class PostController extends Controller
     /**
      * Go to view post add
      */
-    public function add(){
-
-        return view('posts.add-post');
+    public function add()
+    {
+        return view('posts.post_add');
     }
 
     /**
      * create post to view
      */
-    public function create( ){
-
+    public function create()
+    {
         return view('posts.create-post');
     }
 
@@ -100,18 +97,18 @@ class PostController extends Controller
      * confirmPost
      * @param $request
      */
-    public function confirmPost(Request $request){
-
-        $validator = validator(request()->all(),[
+    public function confirmPost(Request $request)
+    {
+        $validator = validator(request()->all(), [
             'title' =>'required|unique:posts',
             'description' => 'required',
         ]);
         
-        if($validator->fails()){
+        if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
-        return view('posts.create-post-confirmation',[
+        return view('posts.post_add_confirm', [
             'posts' => $request
         ]);
     }
@@ -120,67 +117,65 @@ class PostController extends Controller
      * insert post into database
      * @param request
      */
-    public function insert(Request $request){
-       
+    public function insert(Request $request)
+    {
         $this->postInterface->insertPost($request);
         return redirect('/posts')
-            ->with('info','Add Post Successful');
-
+            ->with('info', 'Add Post Successful');
     }
 
     /**
      * delete post
      * @param delete id
      */
-    public function delete(Request $request){
-
+    public function delete(Request $request)
+    {
         $id = request()->id;
 
         $this->postInterface->deletePost($id);
         return redirect('/posts')
-        ->with('info','Post  Deleted');
-
+            ->with('info', 'Post  Deleted');
     }
-
 
     /**
      * search updated data in database
      * @param update $id
-     * return old data
+     * @return old data
      */
-    public function update($id){
-
+    public function update($id)
+    {
         $updatePost = $this->postInterface->searchPost($id);
-        return view('posts.update-post',[
-            'post' => $updatePost 
+        return view('posts.post_update', [
+            'post' => $updatePost
         ]);
     }
 
     /**
      * update confirmation
+     *
      */
-    public function updateConfirm(Request $request){
-
-        $validator = validator(request()->all(),[
+    public function updateConfirm(Request $request)
+    {
+        $validator = validator(request()->all(), [
             'title' =>'required',
             'description' => 'required',
         ]);
         
-        if($validator->fails()){
+        if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
-        return view('posts.update-post-confirmation',[
+        return view('posts.post_update_confirm', [
             'posts' => $request
         ]);
     }
-     
+
     /**
      * update post into database
      * @param request
      */
-    public function updatePost(Request $request){
-
+    public function updatePost(Request $request)
+    {
         $this->postInterface->updatePost($request);
         return redirect('/posts');
     }
@@ -189,13 +184,12 @@ class PostController extends Controller
      * search
      * @param search $request
      */
-    public function search(Request $request){
-
+    public function search(Request $request)
+    {
         $posts = $this->postInterface->search($request);
 
-        return view('posts.post-list',[
+        return view('posts.post_list', [
             'posts' => $posts
         ]);
     }
-
 }

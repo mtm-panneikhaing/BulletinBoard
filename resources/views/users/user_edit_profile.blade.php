@@ -79,7 +79,7 @@
                             <label for="profile" class="col-md-4 col-form-label text-md-right">{{ __('Profile') }}</label>
 
                             <div class="col-md-6">
-                                <input id="profile" type="file" class="form-control" name="profile" value="{{ Auth::user()->profile }}" autocomplete="profile">
+                                <input id="profile" type="file" class="form-control" name="profile" autocomplete="profile">
                                 <img id="image" style="width:100px; height:100px;" class="float-right mt-2" />
                             </div>
                         </div>

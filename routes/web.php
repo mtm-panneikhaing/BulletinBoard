@@ -13,23 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/','PostController@detail');
+Route::get('/', 'PostController@detail');
 
-Route::get('/posts','PostController@detail');
+Route::get('/posts', 'PostController@detail');
 
-// Route::get('/posts/create','PostController@create');
+Route::get('/posts/add', 'PostController@add');
 
-Route::get('/posts/add','PostController@add');
+Route::post('/posts/add/confirm', 'PostController@confirmPost');
 
-Route::post('/posts/add/confirm','PostController@confirmPost');
+Route::post('/posts/add/confirm/insert', 'PostController@insert');
 
-Route::post('/posts/add/confirm/insert','PostController@insert');
+Route::get('/posts/update/{id}', 'PostController@update');
 
-Route::get('/posts/update/{id}','PostController@update');
+Route::post('/posts/update/confirm', 'PostController@updateConfirm');
 
-Route::post('/posts/update/confirm','PostController@updateConfirm');
-
-Route::post('/posts/update/modify','PostController@updatePost');
+Route::post('/posts/update/modify', 'PostController@updatePost');
 
 Route::post('/posts/delete', 'PostController@delete');
 
@@ -42,38 +40,32 @@ Route::get('/posts/upload', 'PostController@upload');
 Route::post('/posts/upload/excel', 'PostController@import');
 
 //users
-Route::get('/users/list','UserController@userList');
+Route::get('/users/list', 'UserController@userList');
 
-Route::get('/users/profile','UserController@userProfile');
+Route::get('/users/profile', 'UserController@userProfile');
 
-Route::get('/users/create','UserController@create');
+Route::get('/users/create', 'UserController@create');
 
-Route::post('/users/create/confirm','UserController@userConfirm');
+Route::post('/users/create/confirm', 'UserController@userConfirm');
 
-Route::post('users/create/confirm/insert','UserController@userInsert');
+Route::post('users/create/confirm/insert', 'UserController@userInsert');
 
-// Route::get('/users/detail','UserController@userDetail');
+Route::get('/users/update', 'UserController@userUpdate');
 
-Route::get('/users/update','UserController@userUpdate');
+Route::post('/users/update', 'UserController@userUpdate');
 
-// Route::get('/users/update','UserController@userUpdate');
+Route::post('/users/update/confirm', 'UserController@updateConfirm');
 
-Route::post('/users/update','UserController@userUpdate');
+Route::post('/users/delete', 'UserController@userDelete');
 
-Route::post('/users/delete','UserController@userDelete');
+Route::get('/users/edit', 'UserController@editProfile');
 
-Route::post('/users/update/confirm','UserController@updateConfirm');
+Route::get('/changePassword', 'UserController@changePassword');
 
-Route::get('/users/edit','UserController@editProfile');
+Route::post('/users/password/change', 'UserController@passwordChange');
 
-Route::get('/changePassword','UserController@changePassword');
+Route::get('/changePassword/confirm', 'UserController@passwordConfirm');
 
-Route::post('/users/password/change','UserController@passwordChange');
-
-Route::get('/changePassword/confirm','UserController@passwordConfirm');
-
-Route::post('/users/search','UserController@search');
+Route::post('/users/search', 'UserController@search');
 
 Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
