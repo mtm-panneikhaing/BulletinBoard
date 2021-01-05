@@ -55,6 +55,7 @@ class UserDao implements UserDaoInterface
         $user->type = $request->type;
         $user->phone = $request->phone;
         $user->address = $request->address;
+        $user ->updated_user_id = Auth::user()->id;
         $user->updated_at = now();
 
         return $user->save();
@@ -79,6 +80,8 @@ class UserDao implements UserDaoInterface
     public function passwordChange($password)
     {
         Auth::user()->password = bcrypt($password);
+        Auth::user()->updated_user_id = Auth::user()->id;
+        Auth::user()->updated_at = now();
         Auth::user()->save();
     }
 

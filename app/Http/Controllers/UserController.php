@@ -26,6 +26,7 @@ class UserController extends Controller
 
     /**
      * User List
+     * @return users
      */
     public function userList()
     {
@@ -46,6 +47,7 @@ class UserController extends Controller
 
     /**
      * User confirmation
+     * @return uers,profile
      */
     public function userConfirm(Request $request)
     {
@@ -75,6 +77,7 @@ class UserController extends Controller
     /**
      * Insert user into database
      * @param $request
+     * @return info
      */
     public function userInsert(request $request)
     {
@@ -103,6 +106,7 @@ class UserController extends Controller
     /**
      * User update confirmation
      * @param $request
+     * @return user,profile
      */
     public function updateConfirm(Request $request)
     {
@@ -132,10 +136,10 @@ class UserController extends Controller
     /**
      * Update user into database
      * @param $request
+     * @return info
      */
     public function userUpdate(Request $request)
     {
-        dd($request);
         $this->userInterface->updateUser($request);
 
         return redirect('/users/profile')
@@ -145,6 +149,7 @@ class UserController extends Controller
     /**
      * Delete user
      * @param $request
+     * @return info
      */
     public function userDelete(Request $request)
     {
@@ -174,6 +179,7 @@ class UserController extends Controller
     /**
      * Change password
      * @param $request
+     * @return info
      */
     public function passwordChange(Request $request)
     {
@@ -208,6 +214,7 @@ class UserController extends Controller
     /**
      * search user
      * @param request
+     * @return users
      */
     public function search(Request $request)
     {

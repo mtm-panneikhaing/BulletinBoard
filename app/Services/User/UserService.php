@@ -7,53 +7,53 @@ use App\Contracts\Services\User\UserServiceInterface;
 
 class UserService implements UserServiceInterface
 {
-  private $userDao;
+    private $userDao;
 
-  /**
-   * Class Constructor
-   * @param OperatorUserDaoInterface
-   * @return
-   */
-  public function __construct(UserDaoInterface $userDao)
-  {
-    $this->userDao = $userDao;
-  }
+    /**
+     * Class Constructor
+     * @param OperatorUserDaoInterface
+     */
+    public function __construct(UserDaoInterface $userDao)
+    {
+        $this->userDao = $userDao;
+    }
 
-  /**
-   * Get User List
-   * @param Object
-   * @return $userList
-   */
-  public function getUserList()
-  {
-    return $this->userDao->getUserList();
-  }
+    /**
+     * Get User List
+     * @param Object
+     * @return $userList
+     */
+    public function getUserList()
+    {
+        return $this->userDao->getUserList();
+    }
 
-  //insert user
-  public function userInsert($request)
-  {
-    return $this->userDao->userInsert($request);
-  }
+    //insert user
+    public function userInsert($request)
+    {
+        return $this->userDao->userInsert($request);
+    }
 
-  //delete user
-  public function userDelete($id)
-  {
-    return $this->userDao->userDelete($id);
-  }
+    //delete user
+    public function userDelete($id)
+    {
+        return $this->userDao->userDelete($id);
+    }
 
-  //password change
-  public function  passwordChange($password)
-  {
-    return $this->userDao->passwordChange($password);
-  }
+    //password change
+    public function passwordChange($password)
+    {
+        return $this->userDao->passwordChange($password);
+    }
 
-  //update user
-  public function updateUser($request){
-    return $this->userDao->updateUser($request);
-  }
+    //update user
+    public function updateUser($request)
+    {
+        return $this->userDao->updateUser($request);
+    }
 
-  public function userSearch($request)
-  {
-    return $this->userDao->userSearch($request);
-  }
+    public function userSearch($request)
+    {
+        return $this->userDao->userSearch($request);
+    }
 }

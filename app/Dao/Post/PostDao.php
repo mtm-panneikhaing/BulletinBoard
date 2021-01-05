@@ -3,6 +3,9 @@
 namespace App\Dao\Post;
 
 use App\Contracts\Dao\Post\PostDaoInterface;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Post;
 use Auth;
@@ -18,9 +21,31 @@ class PostDao implements PostDaoInterface
     public function getPostList()
     {
         // return Post::get();
-        return Post::where('status', 1)
+        $postList =  Post::where('status', 1)
                     ->where('deleted_user_id')
-                    ->latest()->paginate(5);
+                    ->get();
+
+        //inactive post but owner have been seen
+        $inactivePost = Post::where('status', 0)
+                        ->where('create_user_id', Auth::id())
+                        ->where('deleted_user_id', null)
+                        ->get();
+        
+        $allPosts = $postList->merge($inactivePost)->sortByDesc('created_at');
+        $allPosts = $this->paginate($allPosts);
+        return $allPosts;
+    }
+    
+    /**
+     * paginate
+     * @param items
+     * @return
+     */
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     /**
@@ -74,9 +99,9 @@ class PostDao implements PostDaoInterface
         $post->title = $request->title;
         $post->description = $request->description;
 
-        if (! $request->status) {
+        if ($request->status == null) {
             $post->status = 0;
-        } elseif ($request->status == 1) {
+        } else {
             $post->status = 1;
         }
         $post->updated_at = now();

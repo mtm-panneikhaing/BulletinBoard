@@ -31,7 +31,7 @@ Route::post('/posts/update/modify', 'PostController@updatePost');
 
 Route::post('/posts/delete', 'PostController@delete');
 
-Route::post('/posts/search', 'PostController@search');
+Route::get('/search', ['as' => 'search', 'uses' => 'PostController@search']);
 
 Route::get('/posts/download', 'PostController@export');
 

@@ -9,6 +9,7 @@ use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Input;
 
 /**
  *
@@ -31,6 +32,7 @@ class PostController extends Controller
 
     /**
      * export csv file
+     * @return excel file
      */
     public function export()
     {
@@ -96,6 +98,7 @@ class PostController extends Controller
     /**
      * confirmPost
      * @param $request
+     * @return $posts
      */
     public function confirmPost(Request $request)
     {
@@ -109,13 +112,14 @@ class PostController extends Controller
         }
 
         return view('posts.post_add_confirm', [
-            'posts' => $request
+            'post' => $request
         ]);
     }
 
     /**
      * insert post into database
      * @param request
+     * @return info
      */
     public function insert(Request $request)
     {
@@ -127,6 +131,7 @@ class PostController extends Controller
     /**
      * delete post
      * @param delete id
+     * @return info
      */
     public function delete(Request $request)
     {
@@ -152,7 +157,7 @@ class PostController extends Controller
 
     /**
      * update confirmation
-     *
+     * @return posts
      */
     public function updateConfirm(Request $request)
     {
@@ -166,7 +171,7 @@ class PostController extends Controller
         }
 
         return view('posts.post_update_confirm', [
-            'posts' => $request
+            'post' => $request
         ]);
     }
 
@@ -182,7 +187,8 @@ class PostController extends Controller
 
     /**
      * search
-     * @param search $request
+     * @param search request
+     * @return posts
      */
     public function search(Request $request)
     {

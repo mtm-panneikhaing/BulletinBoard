@@ -10,18 +10,17 @@
     <form action="{{ url('/users/search') }}" method="post">
         @csrf
         <div class="form-inline mb-3">
-            <input type="text" placeholder="Name" class="form-control mr-2 mb-2 col-lg-2 col-md-4" name="name">
-            <input type="email" placeholder="Email" class="form-control mr-2 mb-2 col-lg-2 col-md-4" name="email">
-            <input type="text" placeholder="Create From" class="form-control mb-2 mr-2 col-lg-2 col-md-4"
+            <input type="text" placeholder="Name" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="name">
+            <input type="email" placeholder="Email" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="email">
+            <input type="text" placeholder="Create From" class="form-control mb-2 mr-2 col-lg-2 col-md-5"
                 name="createFrom">
-            <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-4" name="createTo">
-            <input type="submit" class="btn btn-success mr-2 mb-2  col-lg-1 col-md-2" value="search">
+            <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="createTo">
+            <input type="submit" class="btn btn-success mr-2 mb-2  col-lg-1 col-md-5" value="search">
             @if(Auth::user()->type == 0)
-            <a href="/users/create" class="btn btn-success mr-2 mb-2 col-lg-1 col-md-2">Add</a>
+            <a href="/users/create" class="btn btn-success mr-2 mb-2 col-lg-1 col-md-5">Add</a>
             @endif
         </div>
     </form>
-
     <table class="table table-striped">
         <tr>
             <th>Name</th>
@@ -60,8 +59,8 @@
             <td>{{ $user->phone }}</td>
             <td>{{ $user->dob }}</td>
             <td>{{ $user->address }}</td>
-            <td>{{ $user->created_at->format('yy-m-d') }}</td>
-            <td>{{ $user->updated_at->format('yy-m-d') }}</td>
+            <td>{{ $user->created_at->format('y-m-d') }}</td>
+            <td>{{ $user->updated_at->format('y-m-d') }}</td>
             <td class="float-right">
                 <a data-toggle="modal" data-target="#deleteConfirm" class="delete btn btn-danger"
                     data-id="{{ $user->id }}">
@@ -74,7 +73,6 @@
     <!-- User Detail Modal -->
     <div class="modal flade" id="myModal" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -111,14 +109,11 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
-
         </div>
     </div>
-
     <!-- Delete Confirmation Modal -->
     <div class="modal flade" id="deleteConfirm" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -137,14 +132,10 @@
                             <input type="submit" class="btn btn-danger mr-4" value="Yes"></button>
                         </div>
                     </form>
-
-
                 </div>
             </div>
-
         </div>
     </div>
-
 </div>
 <script>
     $(document).ready(function() {
