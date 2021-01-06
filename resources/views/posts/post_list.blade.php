@@ -45,8 +45,15 @@
             @auth
             <td>
                 @if(Auth::user()->id == $post->create_user_id )
-                <a href='{{url("/posts/update/$post->id")}}' class="btn btn-success btn-xs"><i class="fas fa-edit"></i>
+                @if($post->status == 1)
+                <a href='{{url("/posts/update/$post->id")}}' class="btn btn-success btn-xs">
+                    <i class="fas fa-edit"></i>
                 </a>
+                @else
+                <a href='{{url("/posts/update/$post->id")}}' class="btn btn-dark opacity-1 btn-xs">
+                    <i class="fas fa-edit"></i>
+                </a>
+                @endif
                 @endif
             </td>
             <td>

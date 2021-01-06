@@ -7,20 +7,19 @@
     </div>
     @endif
     <h2 class="mb-4">User Lists</h2>
-    <form action="{{ url('/users/search') }}" method="post">
-        @csrf
-        <div class="form-inline mb-3">
-            <input type="text" placeholder="Name" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="name">
-            <input type="email" placeholder="Email" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="email">
-            <input type="text" placeholder="Create From" class="form-control mb-2 mr-2 col-lg-2 col-md-5"
-                name="createFrom">
-            <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="createTo">
-            <input type="submit" class="btn btn-success mr-2 mb-2  col-lg-1 col-md-5" value="search">
-            @if(Auth::user()->type == 0)
-            <a href="/users/create" class="btn btn-success mr-2 mb-2 col-lg-1 col-md-5">Add</a>
-            @endif
-        </div>
-    </form>
+    {{ Form::open(['route' => 'search/user', 'method' => 'GET'])}}
+    @csrf
+    <div class="form-inline mb-3">
+        <input type="text" placeholder="Name" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="name">
+        <input type="email" placeholder="Email" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="email">
+        <input type="text" placeholder="Create From" class="form-control mb-2 mr-2 col-lg-2 col-md-5" name="createFrom">
+        <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="createTo">
+        <input type="submit" class="btn btn-success mr-2 mb-2  col-lg-1 col-md-5" value="search">
+        @if(Auth::user()->type == 0)
+        <a href="/users/create" class="btn btn-success mr-2 mb-2 col-lg-1 col-md-5">Add</a>
+        @endif
+    </div>
+    {{ Form::close() }}
     <table class="table table-striped">
         <tr>
             <th>Name</th>
@@ -70,6 +69,7 @@
         </tr>
         @endforeach
     </table>
+    <div class="row justify-content-center">{{ $users->links() }}</div>
     <!-- User Detail Modal -->
     <div class="modal flade" id="myModal" role="dialog">
         <div class="modal-dialog">

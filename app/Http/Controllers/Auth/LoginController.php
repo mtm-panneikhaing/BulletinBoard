@@ -5,9 +5,20 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    /**
+     * Credentails
+     *
+     * @param request
+     */
+    protected function credentials(Request $request)
+    {
+        return array_merge($request->only($this->username(), 'password'), ['deleted_user_id' => null]);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Login Controller

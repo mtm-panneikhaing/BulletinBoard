@@ -20,7 +20,7 @@ class PostDao implements PostDaoInterface
 
     public function getPostList()
     {
-        // return Post::get();
+        // active post
         $postList =  Post::where('status', 1)
                     ->where('deleted_user_id')
                     ->get();
@@ -56,8 +56,8 @@ class PostDao implements PostDaoInterface
     {
         //insert Post into database
         $post = new Post;
-        $post -> title = request() -> title;
-        $post -> description = request() -> description;
+        $post -> title = $request -> title;
+        $post -> description = $request -> description;
         $post -> status = 1;
         $post -> create_user_id = Auth::user()->id;
         $post -> updated_user_id = Auth::user()->id;
@@ -115,11 +115,29 @@ class PostDao implements PostDaoInterface
      */
     public function search($request)
     {
-        // $post = new Post;
-        return Post::where('title', 'LIKE', '%' . request()->search . '%')
-            ->orwhere('description', 'LIKE', '%' . request()->search . '%')
-            ->join('users', 'posts.create_user_id', '=', 'users.id')
-            ->orwhere('users.name', 'LIKE', '%' . request()->search . '%')
-            ->latest('posts.created_at')->paginate(5);
+        // active post
+
+        $postList =   Post::where('deleted_user_id', null)
+                        ->where('status', 1)
+                        ->whereHas('user', function ($query) use ($request) {
+                            $query->where('title', 'like', "%{$request->search}%");
+                            $query->orWhere('description', 'like', "%{$request->search}%");
+                            $query->orWhere('name', 'like', "%{$request->search}%");
+                        })->get();
+
+        //inactive post but owner have been seen
+                
+        $inactivePost = Post::where('status', 0)
+                        ->where('create_user_id', Auth::id())
+                        ->where('deleted_user_id', null)
+                        ->whereHas('user', function ($query) use ($request) {
+                            $query->where('title', 'like', "%{$request->search}%");
+                            $query->orWhere('description', 'like', "%{$request->search}%");
+                            $query->orWhere('name', 'like', "%{$request->search}%");
+                        })->get();
+
+        $allPosts = $postList->merge($inactivePost)->sortByDesc('created_at');
+        $allPosts = $this->paginate($allPosts);
+        return $allPosts;
     }
 }

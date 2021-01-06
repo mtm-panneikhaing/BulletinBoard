@@ -19,8 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->text('password');
             $table->string('profile');
-            $table->string('type',1)->default(1);
-            $table->string('phone',20)->nullable();
+            $table->string('type', 1)->default(1);
+            $table->string('phone', 20)->nullable();
             $table->string('address')->nullable();
             $table->date('dob')->nullable();
             $table->integer('create_user_id');
@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->datetime('created_at');
             $table->datetime('updated_at');
             $table->datetime('deleted_at')->nullable();
+            $table->string('remember_token')->nullable();
         });
     }
 

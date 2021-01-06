@@ -25,14 +25,14 @@ class UserDao implements UserDaoInterface
     public function userInsert($request)
     {
         $user = new User;
-        $user -> name = request() -> name;
-        $user -> email = request() -> email;
-        $user -> type = request() -> type;
-        $user -> password = bcrypt(request() -> password);
-        $user -> profile = request() -> profile;
-        $user -> dob = request() -> dob;
-        $user -> phone = request() -> phone;
-        $user -> address = request() -> address;
+        $user -> name = $request -> name;
+        $user -> email = $request -> email;
+        $user -> type = $request -> type;
+        $user -> password = bcrypt($request -> password);
+        $user -> profile = $request -> profile;
+        $user -> dob = $request -> dob;
+        $user -> phone = $request -> phone;
+        $user -> address = $request -> address;
         $user -> create_user_id = Auth::user()->id;
         $user -> updated_user_id = Auth::user()->id;
         $user -> deleted_user_id =  null;
@@ -92,10 +92,11 @@ class UserDao implements UserDaoInterface
      */
     public function userSearch($request)
     {
-        return User::where('name', 'LIKE', '%' . request()->name . '%')
-            ->where('email', 'LIKE', '%' . request()->email . '%')
-            ->where('created_at', 'LIKE', '%' . request()->createFrom . '%')
-            ->where('updated_at', 'LIKE', '%' . request()->createTo . '%')
+        return User::where('name', 'LIKE', '%' . $request->name . '%')
+            ->where('email', 'LIKE', '%' . $request->email . '%')
+            ->where('created_at', 'LIKE', '%' . $request->createFrom . '%')
+            ->where('updated_at', 'LIKE', '%' . $request->createTo . '%')
+            ->where('deleted_user_id')
             ->latest()->paginate(5);
     }
 }

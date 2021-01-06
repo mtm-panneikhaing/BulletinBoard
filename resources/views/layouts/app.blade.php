@@ -53,6 +53,9 @@
                             <a href="{{ url('/users/profile') }}" class="nav-link">User</a>
                             @endauth
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/') }}" class="nav-link">Posts</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

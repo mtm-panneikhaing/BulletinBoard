@@ -135,7 +135,7 @@ class PostController extends Controller
      */
     public function delete(Request $request)
     {
-        $id = request()->id;
+        $id = $request->id;
 
         $this->postInterface->deletePost($id);
         return redirect('/posts')
@@ -161,7 +161,7 @@ class PostController extends Controller
      */
     public function updateConfirm(Request $request)
     {
-        $validator = validator(request()->all(), [
+        $validator = validator($request->all(), [
             'title' =>'required',
             'description' => 'required',
         ]);
@@ -182,7 +182,8 @@ class PostController extends Controller
     public function updatePost(Request $request)
     {
         $this->postInterface->updatePost($request);
-        return redirect('/posts');
+        return redirect('/posts')
+            ->with('info', 'Update Post Successfully');
     }
 
     /**
@@ -193,7 +194,6 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $posts = $this->postInterface->search($request);
-
         return view('posts.post_list', [
             'posts' => $posts
         ]);

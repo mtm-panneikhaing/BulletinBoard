@@ -7,14 +7,14 @@
             <div class="card">
                 <div class="card-header">Create User</div>
                 @if($errors->any())
-                    <div class="alert alert-warning">
-                        <ol>
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ol>
-                    </div>
-                 @endif 
+                <div class="alert alert-warning">
+                    <ol>
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ol>
+                </div>
+                @endif
                 <div class="card-body">
                     <form method="POST" action="{{url('/users/create/confirm')}}" enctype="multipart/form-data">
                         @csrf
@@ -23,7 +23,8 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" value="" required autocomplete="name" autofocus>
                             </div>
                         </div>
 
@@ -39,14 +40,18 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password"
+                                    class="form-control @error('password') is-invalid @enderror" name="password"
+                                    required autocomplete="new-password">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm Password</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm
+                                Password</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirm" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control"
+                                    name="password_confirm" required autocomplete="new-password">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -55,18 +60,19 @@
                             <div class="col-md-6">
                                 <!-- <input id="type" type="type" class="form-control @error('type') is-invalid @enderror" name="type"  required autocomplete="email"> -->
 
-                                    <select id="type" name="type" class="form-control">
-                                        <option value="0">Admin</option>
-                                        <option value="1">User</option>
-                                        <option value="2">Visitor</option>
-                                    </select>
+                                <select id="type" name="type" class="form-control">
+                                    <option value="0">Admin</option>
+                                    <option value="1">User</option>
+                                    <option value="2">Visitor</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="phone" class="col-md-4 col-form-label text-md-right">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone"  autocomplete="phone">
+                                <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
+                                    name="phone" autocomplete="phone">
 
                             </div>
                         </div>
@@ -74,7 +80,8 @@
                             <label for="dob" class="col-md-4 col-form-label text-md-right">Date of Birth</label>
 
                             <div class="col-md-6">
-                                <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror" name="dob"  autocomplete="dob">
+                                <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror"
+                                    name="dob" autocomplete="dob">
 
                             </div>
                         </div>
@@ -82,7 +89,9 @@
                             <label for="address" class="col-md-4 col-form-label text-md-right">Address</label>
 
                             <div class="col-md-6">
-                                <textarea id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address"  autocomplete="address"></textarea>
+                                <textarea id="address" type="text"
+                                    class="form-control @error('address') is-invalid @enderror" name="address"
+                                    autocomplete="address"></textarea>
 
                             </div>
                         </div>
@@ -90,7 +99,8 @@
                             <label for="profile" class="col-md-4 col-form-label text-md-right">Profile</label>
 
                             <div class="col-md-6">
-                                <input id="profile" type="file" class="form-control" name="profile"  required autocomplete="profile">
+                                <input id="profile" type="file" class="form-control" name="profile" required
+                                    autocomplete="profile">
                                 <img id="image" style="width:100px; height:100px;" class="float-right mt-2" />
                             </div>
                         </div>
@@ -111,10 +121,10 @@
     </div>
 </div>
 <script>
-        document.getElementById("profile").onchange = function () {
+    document.getElementById("profile").onchange = function() {
         var reader = new FileReader();
 
-        reader.onload = function (e) {
+        reader.onload = function(e) {
             // get loaded data and render thumbnail.
             document.getElementById("image").src = e.target.result;
         };
@@ -122,5 +132,5 @@
         // read the image file as a data URL.
         reader.readAsDataURL(this.files[0]);
     };
-    </script>
+</script>
 @endsection

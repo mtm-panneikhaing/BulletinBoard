@@ -13,18 +13,19 @@ class PostsExport implements FromCollection, WithHeadings
         return Post::all();
     }
 
-    public function headings():array{
+    public function headings():array
+    {
         return[
-            'Id',
-            'Title',
-            'Description',
-            'Status',
-            'Create User',
-            'Updated User',
-            'Deleted User',
-            'Created Date',
-            'Updated Date',
-            'Deleted Date',
+            'id',
+            'title',
+            'description',
+            'status',
+            'create_user_id',
+            'updated_user_id',
+            'deleted_user_id',
+            'created_at',
+            'updated_at',
+            'deleted_at',
         ];
     }
 }
