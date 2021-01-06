@@ -12,14 +12,14 @@
     <div class="form-inline mb-3">
         <input type="text" placeholder="Name" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="name">
         <input type="email" placeholder="Email" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="email">
-        <input type="text" placeholder="Create From" class="form-control mb-2 mr-2 col-lg-2 col-md-5" name="createFrom">
-        <input type="text" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="createTo">
-        <input type="submit" class="btn btn-success mr-2 mb-2  col-lg-1 col-md-5" value="search">
+        <input type="date" placeholder="Create From" class="form-control mb-2 mr-2 col-lg-2 col-md-5" name="createFrom">
+        <input type="date" placeholder="Create To" class="form-control mr-2 mb-2 col-lg-2 col-md-5" name="createTo">
+        <input type="submit" class="btn btn-primary mr-2 mb-2  col-lg-1 col-md-5" value="search">
         @if(Auth::user()->type == 0)
-        <a href="/users/create" class="btn btn-success mr-2 mb-2 col-lg-1 col-md-5">Add</a>
+        <a href="/users/create" class="btn btn-primary mr-2 mb-2 col-lg-1 col-md-5">Add</a>
         @endif
     </div>
-    {{ Form::close() }}
+    {{ Form::close()}}
     <table class="table table-striped">
         <tr>
             <th>Name</th>
@@ -69,7 +69,6 @@
         </tr>
         @endforeach
     </table>
-    <div class="row justify-content-center">{{ $users->links() }}</div>
     <!-- User Detail Modal -->
     <div class="modal flade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -128,8 +127,8 @@
                             <h5>Are you sure to delete?</h5>
                         </div>
                         <div class="mt-4">
-                            <button class="btn btn-primary ml-4" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-danger mr-4" value="Yes"></button>
+                            <input type="submit" class="btn btn-primary ml-4" value="Yes"></button>
+                            <button class="btn btn-danger mr-4" data-dismiss="modal">Close</button>
                         </div>
                     </form>
                 </div>

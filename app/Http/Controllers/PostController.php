@@ -56,24 +56,28 @@ class PostController extends Controller
         $validator = validator(request()->all(), [
             'file'=>'required', 'mimes:csv','size:max:500',
         ]);
-        
+
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
         $path = request()->file('file');
+        $import = new PostsImport;
+        $import->import($path);
         
-        Excel::import(new PostsImport, $path, 's3');
-        return redirect('/posts')
-            ->with('info', 'Upload successful');
+        if ($import->failures()->isNotEmpty()) {
+            return back()->withFailures($import->failures());
+        } else {
+            return redirect('/posts');
+        }
     }
 
     /**
      * post detail
      */
-    public function detail()
+    public function detail(Request $request)
     {
-        $postList = $this->postInterface->getPostList();
+        $postList = $this->postInterface->getPostList($request);
         return view('posts.post_list', [
             'posts' => $postList
         ]);
@@ -194,6 +198,7 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $posts = $this->postInterface->search($request);
+        dd($posts);
         return view('posts.post_list', [
             'posts' => $posts
         ]);

@@ -23,9 +23,9 @@ class PostService implements PostServiceInterface
      * @param Object
      * @return $PostList
      */
-    public function getPostList()
+    public function getPostList($request)
     {
-        return $this->postDao->getPostList();
+        return $this->postDao->getPostList($request);
     }
 
     /**
@@ -66,15 +66,5 @@ class PostService implements PostServiceInterface
     public function updatePost($request)
     {
         return $this->postDao->updatePost($request);
-    }
-
-    /**
-     * Search Post
-     * @param Request
-     * @return
-     */
-    public function search($request)
-    {
-        return $this->postDao->search($request);
     }
 }

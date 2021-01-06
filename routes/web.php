@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware('auth.basic')->group(function () {
-    Route::get('/posts', 'PostController@detail');
+Route::get('/', 'PostController@detail');
 
+Route::get('/posts', 'PostController@detail');
+
+Route::middleware('auth.basic')->group(function () {
     Route::get('/posts/add', 'PostController@add');
 
     Route::post('/posts/add/confirm', 'PostController@confirmPost');
@@ -35,10 +37,6 @@ Route::middleware('auth.basic')->group(function () {
 
     Route::post('/posts/upload/excel', 'PostController@import');
 });
-    Route::get('/', 'PostController@detail');
-
-    Route::get('/search', ['as' => 'search', 'uses' => 'PostController@search']);
-
 
 //users
 Route::middleware('auth.basic')->group(function () {
