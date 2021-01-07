@@ -14,13 +14,11 @@
   @if(session()->has('failures'))
   <div class="alert alert-warning">
     @foreach(session()->get('failures') as $failure)
-    <li>{{ $failure->row() }}</li>
-    <li>{{ $failure->attribute() }}</li>
     @foreach($failure->errors() as $error)
     <li>{{ $error }}</li>
     @endforeach
+    @endforeach
   </div>
-  @endforeach
 
   @endif
   <h4 class="mb-4">Upload CSV File</h4>
