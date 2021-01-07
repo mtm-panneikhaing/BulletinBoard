@@ -153,7 +153,7 @@ class UserController extends Controller
      */
     public function userDelete(Request $request)
     {
-        $id = request()->id;
+        $id = $request->id;
         $this->userInterface->userDelete($id);
        
         return redirect()->back()
