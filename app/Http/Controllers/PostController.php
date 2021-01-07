@@ -189,18 +189,4 @@ class PostController extends Controller
         return redirect('/posts')
             ->with('info', 'Update Post Successfully');
     }
-
-    /**
-     * search
-     * @param search request
-     * @return posts
-     */
-    public function search(Request $request)
-    {
-        $posts = $this->postInterface->search($request);
-        dd($posts);
-        return view('posts.post_list', [
-            'posts' => $posts
-        ]);
-    }
 }
