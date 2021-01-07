@@ -31,7 +31,6 @@ class PostService implements PostServiceInterface
     /**
      * Insert Post
      * @param Request
-     * @return
      */
     public function insertPost($request)
     {
@@ -41,7 +40,6 @@ class PostService implements PostServiceInterface
     /**
      * Delete Post
      * @param Post Id
-     * @return
      */
     public function deletePost($id)
     {
@@ -51,7 +49,6 @@ class PostService implements PostServiceInterface
     /**
      * Search Posts
      * @param Post Id
-     * @return
      */
     public function searchPost($id)
     {
@@ -61,7 +58,6 @@ class PostService implements PostServiceInterface
     /**
      * Update Post
      * @param Request
-     * @return
      */
     public function updatePost($request)
     {

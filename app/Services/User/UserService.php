@@ -31,7 +31,6 @@ class UserService implements UserServiceInterface
     /**
      * Insert User
      * @param Request
-     * @return
      */
     public function userInsert($request)
     {
@@ -41,7 +40,6 @@ class UserService implements UserServiceInterface
     /**
      * Delete User
      * @param User Id
-     * @return
      */
     public function userDelete($id)
     {
@@ -51,7 +49,6 @@ class UserService implements UserServiceInterface
     /**
      * Password Change
      * @param Password
-     * @return
      */
     public function passwordChange($password)
     {
@@ -61,13 +58,16 @@ class UserService implements UserServiceInterface
     /**
      * Update User
      * @param Request
-     * @return
      */
     public function updateUser($request)
     {
         return $this->userDao->updateUser($request);
     }
 
+    /**
+     * Search User
+     * @param Request
+     */
     public function userSearch($request)
     {
         return $this->userDao->userSearch($request);
