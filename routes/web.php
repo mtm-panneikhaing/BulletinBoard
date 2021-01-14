@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'PostController@detail');
 
 Route::get('/posts', 'PostController@detail');
+Route::get('/api/posts', 'Api\PostController@detail');
 
 Route::middleware('auth.basic')->group(function () {
     Route::get('/posts/add', 'PostController@add');
