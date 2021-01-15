@@ -200,14 +200,17 @@ class UserController extends Controller
                 //update password into database
                 $password = request()->new_password;
                 $this->userInterface->passwordChange($password);
+                return response()->json("conform password");
+
                 
-                return  redirect('/users/profile')
-                    ->with('info', 'Password Changed');
+                // return  redirect('/users/profile')
+                //     ->with('info', 'Password Changed');
             }
             return back()->withErrors('Comfirm Password');
         }
             
-        return back()->withErrors('Comfirm Password');
+        // return back()->withErrors('Comfirm Password');
+        return response()->json("conform password");
     }
     
     /**

@@ -24,6 +24,23 @@ Route::post('/post/create', 'Api\PostController@confirmPost');
 
 Route::post('/post/create/confirm', 'Api\PostController@insert');
 
+Route::delete('/delete', 'Api\PostController@delete');
+
+Route::get('/post/update{id}', 'Api\PostController@update');
+
+Route::post('/post/update/confirm', 'Api\PostController@updateConfirm');
+
+Route::post('/post/update', 'Api\PostController@updatePost');
+
+Route::delete('/post/delete{id}', 'Api\PostController@delete');
+
+Route::get('/download', 'Api\PostController@export');
+
+Route::get('/changePassword', 'Api\UserController@passwordChange');
+
+
+
+
 
 Route::post('/auth/login', 'Api\LoginController@login');
 

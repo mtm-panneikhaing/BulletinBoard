@@ -33,7 +33,8 @@ class PostController extends Controller
      */
     public function export()
     {
-        return Excel::download(new PostsExport, 'posts.xlsx');
+        Excel::download(new PostsExport, 'posts.xlsx');
+        return response()->json("dwonload successful");
     }
 
     /**
@@ -133,10 +134,8 @@ class PostController extends Controller
     public function delete(Request $request)
     {
         $id = $request->id;
-
         $this->postInterface->deletePost($id);
-        return redirect('/posts')
-            ->with('info', 'Post  Deleted');
+        return response()->json();
     }
 
     /**
@@ -147,9 +146,7 @@ class PostController extends Controller
     public function update($id)
     {
         $updatePost = $this->postInterface->searchPost($id);
-        return view('posts.post_update', [
-            'post' => $updatePost
-        ]);
+        return response()->json($updatePost, 200);
     }
 
     /**
@@ -167,9 +164,7 @@ class PostController extends Controller
             return back()->withErrors($validator);
         }
 
-        return view('posts.post_update_confirm', [
-            'post' => $request
-        ]);
+        return response()->json($request);
     }
 
     /**
@@ -178,8 +173,11 @@ class PostController extends Controller
      */
     public function updatePost(Request $request)
     {
-        $this->postInterface->updatePost($request);
-        return redirect('/posts')
-            ->with('info', 'Update Post Successfully');
+        // $post = $this->postInterface->updatePost($request);
+        $post = Post::find($request->updatePostID);
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $data = $post->save();
+        return response()->json($data, 200);
     }
 }
