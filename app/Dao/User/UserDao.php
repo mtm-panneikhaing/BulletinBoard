@@ -33,8 +33,9 @@ class UserDao implements UserDaoInterface
         $user -> dob = $request -> dob;
         $user -> phone = $request -> phone;
         $user -> address = $request -> address;
-        $user -> create_user_id = Auth::user()->id;
-        $user -> updated_user_id = Auth::user()->id;
+        //$user -> create_user_id = Auth::user()->id;
+        $user -> create_user_id = 1;
+        $user -> updated_user_id = 1;
         $user -> deleted_user_id =  null;
         $user -> created_at = now();
         $user -> updated_at = now();
@@ -68,7 +69,8 @@ class UserDao implements UserDaoInterface
     public function userDelete($id)
     {
         $delete_id = User::find($id);
-        $delete_id->deleted_user_id = Auth::user()->id;
+        //$delete_id->deleted_user_id = Auth::user()->id;
+        $delete_id->deleted_user_id = 1;
         $delete_id->deleted_at = now();
         $delete_id->save();
     }

@@ -50,27 +50,26 @@ class UserController extends Controller
      */
     public function userConfirm(Request $request)
     {
-        $validator = validator(request() -> all(), [
-            'name' => 'required',
-            'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
-            'password' => 'required', 'string', 'min:8', 'confirmed',
-            'password_confirm' => 'required',
-            'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $validator = validator(request() -> all(), [
+        //     'name' => 'required',
+        //     'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
+        //     'password' => 'required', 'string', 'min:8', 'confirmed',
+        //     'password_confirm' => 'required',
+        //     'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator);
-        }
-        if ($request->password == $request->password_confirm) {
-            $imageName = time()  . '.' . $request->profile->extension();
-            $request->profile->move(public_path('images'), $imageName);
+        // if ($validator->fails()) {
+        //     return back()->withErrors($validator);
+        // }
+        // if ($request->password == $request->password_confirm) {
+        //     $imageName = time()  . '.' . $request->profile->extension();
+        //     $request->profile->move(public_path('images'), $imageName);
 
-            return view('users.user_create_confirm', [
-                'user' => $request,
-                'profile' => $imageName,
-            ]);
-        }
-        return back()->withErrors('Comfirm Password');
+        //     //require $imageName for details
+        //     return response()->json($request);
+        // }
+        // return back()->withErrors('Comfirm Password');
+        return response()->json($request);
     }
 
     /**
@@ -81,9 +80,7 @@ class UserController extends Controller
     public function userInsert(request $request)
     {
         $this->userInterface->userInsert($request);
-
-        return redirect('/users/list')
-            ->with('info', 'Created User');
+        return request().json("User Successfully Added");
     }
     
     /**
@@ -154,9 +151,7 @@ class UserController extends Controller
     {
         $id = $request->id;
         $this->userInterface->userDelete($id);
-       
-        return redirect()->back()
-            ->with('info', 'User Deleted');
+        return request().json();
     }
 
     /**

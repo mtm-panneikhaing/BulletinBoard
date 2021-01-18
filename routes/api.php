@@ -36,7 +36,7 @@ Route::delete('/post/delete{id}', 'Api\PostController@delete');
 
 Route::get('/download', 'Api\PostController@export');
 
-Route::get('/changePassword', 'Api\UserController@passwordChange');
+Route::post('/changePassword', 'Api\UserController@passwordChange');
 
 
 
@@ -61,3 +61,9 @@ Route::group([
   *
   */
   Route::get('user/list', 'Api\UserController@userList');
+
+Route::post('/user/create', 'Api\UserController@userConfirm');
+
+Route::post('/user/create/confirm', 'Api\UserController@userInsert');
+
+Route::delete('/user/delete{id}', 'Api\UserController@userDelete');

@@ -23,7 +23,7 @@ class LoginController extends Controller
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
-            $success['access_token'] =  $user->createToken('MyApp')->accessToken;
+            $success['access_token'] =  $user->createToken('BulletinBoard Password Grant Client')->accessToken;
             $success['token_type']= 'Bearer';
             $success['name']=Auth::user()->name;
             $success['user_id']=Auth::user()->id;
