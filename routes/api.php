@@ -26,9 +26,9 @@ Route::post('/post/create/confirm', 'Api\PostController@insert');
 
 Route::delete('/delete', 'Api\PostController@delete');
 
-Route::get('/post/update{id}', 'Api\PostController@update');
+//Route::get('/post/update{id}', 'Api\PostController@update');
 
-Route::post('/post/update/confirm', 'Api\PostController@updateConfirm');
+Route::post('/post/updateConfirm', 'Api\PostController@updateConfirm');
 
 Route::post('/post/update', 'Api\PostController@updatePost');
 
@@ -67,3 +67,5 @@ Route::post('/user/create', 'Api\UserController@userConfirm');
 Route::post('/user/create/confirm', 'Api\UserController@userInsert');
 
 Route::delete('/user/delete{id}', 'Api\UserController@userDelete');
+
+Route::post('/user/updateConfirm', 'Api\UserController@updateConfirm');

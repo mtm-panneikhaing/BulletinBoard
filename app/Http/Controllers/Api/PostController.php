@@ -155,14 +155,14 @@ class PostController extends Controller
      */
     public function updateConfirm(Request $request)
     {
-        $validator = validator($request->all(), [
-            'title' =>'required',
-            'description' => 'required',
-        ]);
+        // $validator = validator($request->all(), [
+        //     'title' =>'required',
+        //     'description' => 'required',
+        // ]);
         
-        if ($validator->fails()) {
-            return back()->withErrors($validator);
-        }
+        // if ($validator->fails()) {
+        //     return back()->withErrors($validator);
+        // }
 
         return response()->json($request);
     }
@@ -174,7 +174,7 @@ class PostController extends Controller
     public function updatePost(Request $request)
     {
         // $post = $this->postInterface->updatePost($request);
-        $post = Post::find($request->updatePostID);
+        $post = Post::find($request->id);
         $post->title = $request->title;
         $post->description = $request->description;
         $data = $post->save();

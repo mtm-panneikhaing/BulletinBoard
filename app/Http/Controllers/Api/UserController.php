@@ -106,27 +106,29 @@ class UserController extends Controller
      */
     public function updateConfirm(Request $request)
     {
-        $imageName = Auth::user()->profile;
+        // $imageName = Auth::user()->profile;
 
-        $validator = validator(request()->all(), [
-            'name' =>'required','unique:users',
-            'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
-            'type' => 'required',
-            'profile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $validator = validator(request()->all(), [
+        //     'name' =>'required','unique:users',
+        //     'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
+        //     'type' => 'required',
+        //     'profile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator);
-        }
-        if ($request->hasFile('profile')) {
-            $file = $request->file('profile');
-            $imageName = time().'.'.$file->extension();
-            $request->profile->move(public_path('images'), $imageName);
-        }
-        return view('users.user_update_confirm', [
-            'user' => $request ,
-            'profile' => $imageName
-        ]);
+        // if ($validator->fails()) {
+        //     return back()->withErrors($validator);
+        // }
+        // if ($request->hasFile('profile')) {
+        //     $file = $request->file('profile');
+        //     $imageName = time().'.'.$file->extension();
+        //     $request->profile->move(public_path('images'), $imageName);
+        // }
+        // return view('users.user_update_confirm', [
+        //     'user' => $request ,
+        //     'profile' => $imageName
+        // ]);
+
+        return response()->json($request);
     }
 
     /**
