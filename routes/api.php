@@ -60,7 +60,7 @@ Route::group([
   * User
   *
   */
-  Route::get('user/list', 'Api\UserController@userList');
+Route::get('user/list', 'Api\UserController@userList');
 
 Route::post('/user/create', 'Api\UserController@userConfirm');
 
@@ -69,3 +69,5 @@ Route::post('/user/create/confirm', 'Api\UserController@userInsert');
 Route::delete('/user/delete{id}', 'Api\UserController@userDelete');
 
 Route::post('/user/updateConfirm', 'Api\UserController@updateConfirm');
+
+Route::post('/user/update', 'Api\UserController@update');

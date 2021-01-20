@@ -52,11 +52,12 @@ class UserDao implements UserDaoInterface
         $user = User::find($request->id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->profile = $request->profile;
+        $user->profile = "avatar.jpg";
         $user->type = $request->type;
         $user->phone = $request->phone;
         $user->address = $request->address;
-        $user ->updated_user_id = Auth::user()->id;
+        //$user ->updated_user_id = Auth::user()->id;
+        $user ->updated_user_id = 1;
         $user->updated_at = now();
 
         return $user->save();
@@ -83,6 +84,7 @@ class UserDao implements UserDaoInterface
     {
         Auth::user()->password = bcrypt($password);
         Auth::user()->updated_user_id = Auth::user()->id;
+        Auth::user()->updated_user_id = 1;
         Auth::user()->updated_at = now();
         Auth::user()->save();
     }

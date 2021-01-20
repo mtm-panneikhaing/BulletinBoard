@@ -136,12 +136,11 @@ class UserController extends Controller
      * @param $request
      * @return info
      */
-    public function userUpdate(Request $request)
+    public function update(Request $request)
     {
         $this->userInterface->updateUser($request);
 
-        return redirect('/users/profile')
-            ->with('info', 'Updated');
+        return response()->json("update successful");
     }
 
     /**
@@ -189,25 +188,14 @@ class UserController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
-        if (Hash::check($request->old_password, Auth::user()->password)) {
-            // The old password matches the hash in the database
-            if ((request()->new_password == request()->con_new_password) &&
-                    (request()->old_password != request()->new_password)) {
-
-                //update password into database
-                $password = request()->new_password;
-                $this->userInterface->passwordChange($password);
-                return response()->json("conform password");
-
-                
-                // return  redirect('/users/profile')
-                //     ->with('info', 'Password Changed');
-            }
-            return back()->withErrors('Comfirm Password');
+        $user = User::find(1);
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->password = Hash::make($request->new_password);
+            $user->updated_user_id = 1;
+            $user->updated_at = now();
+            $result = $user->save();
+            return response()->json($result, 200);
         }
-            
-        // return back()->withErrors('Comfirm Password');
-        return response()->json("conform password");
     }
     
     /**

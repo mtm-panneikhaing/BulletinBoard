@@ -103,14 +103,10 @@ class PostController extends Controller
      */
     public function confirmPost(Request $request)
     {
-        $validator = validator(request()->all(), [
+        $request->validate([
             'title' =>'required|unique:posts',
             'description' => 'required',
         ]);
-        
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator);
-        // }
 
         return response()->json($request, 200);
     }
