@@ -78,13 +78,11 @@ class PostDao implements PostDaoInterface
         $post -> title = $request -> title;
         $post -> description = $request -> description;
         $post -> status = 1;
-        // $post -> create_user_id = Auth::user()->id;
-        // $post -> updated_user_id = Auth::user()->id;
         $post -> create_user_id = 1;
         $post -> updated_user_id = 1;
         $post -> created_at = now();
         $post -> updated_at = now();
-        $post -> save();
+        return $post -> save();
     }
 
     /**
@@ -95,8 +93,7 @@ class PostDao implements PostDaoInterface
     {
         $delete_id = Post::find($id);
         $delete_id -> status = 0;
-        //$delete_id->deleted_user_id =Auth::user()->id;
-        $delete_id -> deleted_user_id = 1;
+        $delete_id->deleted_user_id =Auth::user()->id;
         $delete_id -> deleted_at = now();
         $delete_id -> save();
     }

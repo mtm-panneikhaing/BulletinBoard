@@ -50,26 +50,17 @@ class UserController extends Controller
      */
     public function userConfirm(Request $request)
     {
-        // $validator = validator(request() -> all(), [
-        //     'name' => 'required',
-        //     'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
-        //     'password' => 'required', 'string', 'min:8', 'confirmed',
-        //     'password_confirm' => 'required',
-        //     'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator);
-        // }
-        // if ($request->password == $request->password_confirm) {
-        //     $imageName = time()  . '.' . $request->profile->extension();
-        //     $request->profile->move(public_path('images'), $imageName);
-
-        //     //require $imageName for details
-        //     return response()->json($request);
-        // }
-        // return back()->withErrors('Comfirm Password');
-        return response()->json($request);
+        $request -> validate([
+            'name' => 'required',
+            'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
+            'password' => 'required', 'string', 'min:8', 'confirmed',
+            'password_confirm' => 'required',
+            'profile' => 'required',
+        ]);
+        if ($request->password == $request->password_confirm) {
+            return response()->json($request, 200);
+        }
+        return response()->json($request, 200);
     }
 
     /**

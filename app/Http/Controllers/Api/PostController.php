@@ -76,7 +76,8 @@ class PostController extends Controller
     public function detail(Request $request)
     {
         // $post = $this->postInterface->getPostList($request);
-        $post = Post::all();
+        $post=  Post::with('user')->where('deleted_user_id', null)->get();
+        //$post = Post::all();
         return response()->json($post, 200);
     }
 
@@ -119,7 +120,7 @@ class PostController extends Controller
     public function insert(Request $request)
     {
         $this->postInterface->insertPost($request);
-        return response()->json("Successful Added");
+        return response()->json("Post Added");
     }
 
     /**
@@ -127,23 +128,28 @@ class PostController extends Controller
      * @param delete id
      * @return info
      */
-    public function delete(Request $request)
+    public function delete($id)
     {
-        $id = $request->id;
-        $this->postInterface->deletePost($id);
-        return response()->json();
+        //$id = $request->id;
+        //$this->postInterface->deletePost($request);
+        $delete_id = Post::find($id);
+        $delete_id -> status = 0;
+        $delete_id -> deleted_at = now();
+        $delete_id -> deleted_user_id = $id;
+        $delete_id -> save();
+        return response()->json("deleted");
     }
 
-    /**
-     * search updated data in database
-     * @param update $id
-     * @return old data
-     */
-    public function update($id)
-    {
-        $updatePost = $this->postInterface->searchPost($id);
-        return response()->json($updatePost, 200);
-    }
+    // /**
+    //  * search updated data in database
+    //  * @param update $id
+    //  * @return old data
+    //  */
+    // public function update($id)
+    // {
+    //     $updatePost = $this->postInterface->searchPost($id);
+    //     return response()->json($updatePost, 200);
+    // }
 
     /**
      * update confirmation
@@ -151,16 +157,11 @@ class PostController extends Controller
      */
     public function updateConfirm(Request $request)
     {
-        // $validator = validator($request->all(), [
-        //     'title' =>'required',
-        //     'description' => 'required',
-        // ]);
-        
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator);
-        // }
-
-        return response()->json($request);
+        $request -> validate([
+            'title' =>'required',
+            'description' => 'required',
+        ]);
+        return response()->json($request, 200);
     }
 
     /**
@@ -173,6 +174,7 @@ class PostController extends Controller
         $post = Post::find($request->id);
         $post->title = $request->title;
         $post->description = $request->description;
+        $post->updated_user_id = $request->userId;
         $data = $post->save();
         return response()->json($data, 200);
     }

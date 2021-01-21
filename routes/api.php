@@ -22,7 +22,7 @@ Route::get('post/list', 'Api\PostController@detail');
 
 Route::post('/post/create', 'Api\PostController@confirmPost');
 
-Route::post('/post/create/confirm', 'Api\PostController@insert');
+Route::post('/post/createConfirm', 'Api\PostController@insert');
 
 Route::delete('/delete', 'Api\PostController@delete');
 
@@ -32,7 +32,7 @@ Route::post('/post/updateConfirm', 'Api\PostController@updateConfirm');
 
 Route::post('/post/update', 'Api\PostController@updatePost');
 
-Route::delete('/post/delete{id}', 'Api\PostController@delete');
+Route::delete("/post/delete/{id}", 'Api\PostController@delete');
 
 Route::get('/download', 'Api\PostController@export');
 
