@@ -28,43 +28,19 @@ class LoginController extends Controller
             $success['name']=Auth::user()->name;
             $success['user_id']=Auth::user()->id;
             $success['user_type']=Auth::user()->type;
+            $success['data'] = Auth::user();
+
             return response()->json(['success' => $success], $this->successStatus);
         } else {
             return response()->json(['error'=>'Unauthorised'], 401);
         }
     }
+    public function logout(Request $request)
+    {
+        Auth::user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
 
-    /**
-    * Register api
-    *
-    * @return \Illuminate\Http\Response
-    */
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-           'name' => 'required',
-           'email' => 'required|email',
-           'password' => 'required',
-           'c_password' => 'required|same:password',
-       ]);
-        if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);
-        }
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
-        $success['name'] =  $user->name;
-        return response()->json(['success'=>$success], $this->successStatus);
-    }
-    /**
-     * details api
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getDetails()
-    {
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+        return response()->json('Successfully logged out');
     }
 }

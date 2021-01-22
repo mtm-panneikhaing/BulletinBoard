@@ -49,25 +49,17 @@ class PostController extends Controller
      * import csv file
      * @param request
      */
-    public function import()
+    public function import(Request $request)
     {
-        $validator = validator(request()->all(), [
-            'file'=>'required', 'mimes:csv','size:max:500',
+        $request->validate([
+            'import_file'=>'required|file|mimes:xls,xlsx,csv'
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator);
-        }
-
-        $path = request()->file('file');
+        $path = $request->file("import_file");
         $import = new PostsImport;
-        $import->import($path);
-        
-        if ($import->failures()->isNotEmpty()) {
-            return back()->withFailures($import->failures());
-        } else {
-            return redirect('/posts');
-        }
+        $request = $import->import($path);
+
+        return response()->jsonn(['message' => 'uploaded successfully'], 200);
     }
 
     /**
@@ -77,7 +69,7 @@ class PostController extends Controller
     {
         // $post = $this->postInterface->getPostList($request);
         $post=  Post::with('user')->where('deleted_user_id', null)->get();
-        //$post = Post::all();
+        // $post = Post::all();
         return response()->json($post, 200);
     }
 
@@ -119,7 +111,17 @@ class PostController extends Controller
      */
     public function insert(Request $request)
     {
-        $this->postInterface->insertPost($request);
+        $post = new Post;
+        $post -> title = $request -> title;
+        $post -> description = $request -> description;
+        $post -> status = Auth::user()->id;
+        $post -> create_user_id =  Auth::user()->id;
+        $post -> updated_user_id =  Auth::user()->id;
+        $post -> created_at = now();
+        $post -> updated_at = now();
+        return $post -> save();
+
+        //$this->postInterface->insertPost($request);
         return response()->json("Post Added");
     }
 

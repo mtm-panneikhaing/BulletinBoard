@@ -32,7 +32,9 @@ class UserController extends Controller
     public function userList()
     {
         // $user= $this->userInterface->getUserList();
-        $user = User::all();
+        $user=  User::with('user')->where('deleted_user_id', null)->get();
+
+        //$user = User::all();
         return response()->json($user, 200);
     }
     
@@ -54,7 +56,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
             'password' => 'required', 'string', 'min:8', 'confirmed',
-            'password_confirm' => 'required',
+            'password_confirm' => 'required|same:password',
             'profile' => 'required',
         ]);
         if ($request->password == $request->password_confirm) {
@@ -70,8 +72,36 @@ class UserController extends Controller
      */
     public function userInsert(request $request)
     {
-        $this->userInterface->userInsert($request);
-        return request().json("User Successfully Added");
+        //$this->userInterface->userInsert($request);
+
+
+        $exploded = explode(',', $request->profile);
+        $decoded = base64_decode($exploded[1]);
+        if (str_contains($exploded[0], 'jpeg')) {
+            $extension = 'jpg';
+        } else {
+            $extension = 'png';
+        }
+        $fileName = time().'.'.$extension;
+        $path = public_path().'/images/'.$fileName;
+        file_put_contents($path, $decoded);
+
+
+        $user = new User;
+        $user -> name = $request -> name;
+        $user -> email = $request -> email;
+        $user -> type = $request -> type;
+        $user -> password = bcrypt($request -> password);
+        $user -> profile = $fileName;
+        
+        //$user -> create_user_id = Auth::user()->id;
+        $user -> create_user_id = 1;
+        $user -> updated_user_id = 1;
+     
+        $user->save();
+
+
+        return response()->json("User Successfully Added");
     }
     
     /**
@@ -129,7 +159,33 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $this->userInterface->updateUser($request);
+        //$this->userInterface->updateUser($request);
+
+        $exploded = explode(',', $request->profile);
+        $decoded = base64_decode($exploded[1]);
+        if (str_contains($exploded[0], 'jpeg')) {
+            $extension = 'jpg';
+        } else {
+            $extension = 'png';
+        }
+        $fileName = time().'.'.$extension;
+        $path = public_path().'/images/'.$fileName;
+        file_put_contents($path, $decoded);
+
+
+        $user = User::find($request->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->profile = $fileName;
+        $user->type = $request->type;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        //$user ->updated_user_id = Auth::user()->id;
+        $user ->updated_user_id = 1;
+        $user->updated_at = now();
+
+        return $user->save();
+
 
         return response()->json("update successful");
     }
@@ -143,7 +199,7 @@ class UserController extends Controller
     {
         $id = $request->id;
         $this->userInterface->userDelete($id);
-        return request().json();
+        return request()->json("Delete User Successful");
     }
 
     /**
@@ -172,7 +228,7 @@ class UserController extends Controller
         $validator = validator(request()->all(), [
             "old_password" =>'required',
             "new_password" =>'required|string|min:6',
-            "con_new_password" =>'required',
+            "con_new_password" =>'required|same:new_password',
 
         ]);
 

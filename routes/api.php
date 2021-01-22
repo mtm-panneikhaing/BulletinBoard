@@ -24,17 +24,13 @@ Route::post('/post/create', 'Api\PostController@confirmPost');
 
 Route::post('/post/createConfirm', 'Api\PostController@insert');
 
-Route::delete('/delete', 'Api\PostController@delete');
-
-//Route::get('/post/update{id}', 'Api\PostController@update');
-
 Route::post('/post/updateConfirm', 'Api\PostController@updateConfirm');
 
 Route::post('/post/update', 'Api\PostController@updatePost');
 
 Route::delete("/post/delete/{id}", 'Api\PostController@delete');
 
-Route::get('/download', 'Api\PostController@export');
+Route::post('/post/import', 'Api\PostController@import');
 
 Route::post('/changePassword', 'Api\UserController@passwordChange');
 
@@ -43,8 +39,6 @@ Route::post('/changePassword', 'Api\UserController@passwordChange');
 
 
 Route::post('/auth/login', 'Api\LoginController@login');
-
-// Route::post('register', 'Api\LoginController@register');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('get-details', 'Api\LoginController@getDetails');
@@ -66,7 +60,7 @@ Route::post('/user/create', 'Api\UserController@userConfirm');
 
 Route::post('/user/create/confirm', 'Api\UserController@userInsert');
 
-Route::delete('/user/delete{id}', 'Api\UserController@userDelete');
+Route::delete('/user/delete/{id}', 'Api\UserController@userDelete');
 
 Route::post('/user/updateConfirm', 'Api\UserController@updateConfirm');
 
