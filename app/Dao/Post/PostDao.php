@@ -18,53 +18,18 @@ class PostDao implements PostDaoInterface
      * @return $operatorList
      */
 
-    public function getPostList($request)
+    public function getPostList()
     {
-        $search =  $request->input('search');
-        if ($search  !="") {
-            /**
-             * Search data
-             */
-            $postList =  Post::where('deleted_user_id', null)
-                            ->where('status', 1)
-                            ->whereHas('user', function ($query) use ($search) {
-                                $query->where('title', 'like', "%{$search }%");
-                                $query->orWhere('description', 'like', "%{$search }%");
-                                $query->orWhere('name', 'like', "%{$search }%");
-                            })->get();
+        $user = Auth::user();
+        // all active post
+        $activePost = Post::with('user')->where('status', 1)->get();
+        // inactive but not deleted
+        $inactivePost = Post::with('user')->where('status', 0)
+                        ->where('create_user_id', Auth::id())
+                        ->where('deleted_user_id', null)->get();
 
-            //inactive post but owner have been seen
-                    
-            $inactivePost = Post::where('status', 0)
-                            ->where('create_user_id', Auth::id())
-                            ->where('deleted_user_id', null)
-                            ->whereHas('user', function ($query) use ($search) {
-                                $query->where('title', 'like', "%{$search }%");
-                                $query->orWhere('description', 'like', "%{$search }%");
-                                $query->orWhere('name', 'like', "%{$search }%");
-                            })->get();
-
-            $allPosts = $postList->merge($inactivePost)->sortByDesc('created_at');
-            $allPosts = $this->pagination($allPosts);
-            $allPosts->appends(['search' => $search]);
-
-            return $allPosts;
-        } else {
-            // active post
-            $postList =  Post::where('status', 1)
-                        ->where('deleted_user_id')
-                        ->get();
-
-            //inactive post but owner have been seen
-            $inactivePost = Post::where('status', 0)
-                            ->where('create_user_id', Auth::id())
-                            ->where('deleted_user_id', null)
-                            ->get();
-            
-            $allPosts = $postList->merge($inactivePost)->sortByDesc('created_at');
-            $allPosts = $this->pagination($allPosts);
-            return $allPosts;
-        }
+        $postList = $activePost->merge($inactivePost);
+        return $postList;
     }
 
     /**
@@ -78,8 +43,8 @@ class PostDao implements PostDaoInterface
         $post -> title = $request -> title;
         $post -> description = $request -> description;
         $post -> status = 1;
-        $post -> create_user_id = 1;
-        $post -> updated_user_id = 1;
+        $post -> create_user_id = Auth::user()->id;
+        $post -> updated_user_id =Auth::user()->id;
         $post -> created_at = now();
         $post -> updated_at = now();
         return $post -> save();
@@ -93,7 +58,7 @@ class PostDao implements PostDaoInterface
     {
         $delete_id = Post::find($id);
         $delete_id -> status = 0;
-        $delete_id->deleted_user_id =Auth::user()->id;
+        $delete_id->deleted_user_id = Auth::user()->id;
         $delete_id -> deleted_at = now();
         $delete_id -> save();
     }
@@ -114,17 +79,15 @@ class PostDao implements PostDaoInterface
      */
     public function updatePost($request)
     {
-        $post = Post::find($request->id);
-        $post->title = $request->title;
-        $post->description = $request->description;
-
-        if ($request->status == null) {
-            $post->status = 0;
-        } else {
-            $post->status = 1;
-        }
-        $post->updated_at = now();
-        return $post->save();
+        $updatePost = Post::find($request->id);
+        $updatePost->title = $request->title;
+        $updatePost->description = $request->description;
+        $updatePost->status = $request->status;
+        $updatePost->create_user_id = Auth::id();
+        $updatePost->updated_user_id = Auth::id();
+        $updatePost->updated_at = now();
+        $updatePost->save();
+        return $updatePost;
     }
 
     /**

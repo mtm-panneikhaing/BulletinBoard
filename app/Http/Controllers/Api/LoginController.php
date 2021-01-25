@@ -25,14 +25,11 @@ class LoginController extends Controller
             $user = Auth::user();
             $success['access_token'] =  $user->createToken('BulletinBoard Password Grant Client')->accessToken;
             $success['token_type']= 'Bearer';
-            $success['name']=Auth::user()->name;
-            $success['user_id']=Auth::user()->id;
-            $success['user_type']=Auth::user()->type;
-            $success['data'] = Auth::user();
+            $success['data'] = $user;
 
             return response()->json(['success' => $success], $this->successStatus);
         } else {
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Unauthorized'], 401);
         }
     }
     public function logout(Request $request)

@@ -15,7 +15,7 @@ class UserDao implements UserDaoInterface
      */
     public function getUserList()
     {
-        return User::where('deleted_user_id')->latest()->paginate(5);
+        return User::with('user')->where('deleted_user_id', null)->get();
     }
 
     /**
@@ -24,22 +24,27 @@ class UserDao implements UserDaoInterface
      */
     public function userInsert($request)
     {
+        $exploded = explode(',', $request->profile);
+        $decoded = base64_decode($exploded[1]);
+        if (str_contains($exploded[0], 'jpeg')) {
+            $extension = 'jpg';
+        } else {
+            $extension = 'png';
+        }
+        $fileName = time().'.'.$extension;
+        $path = public_path().'/images/'.$fileName;
+        file_put_contents($path, $decoded);
+        
         $user = new User;
         $user -> name = $request -> name;
         $user -> email = $request -> email;
         $user -> type = $request -> type;
         $user -> password = bcrypt($request -> password);
-        $user -> profile = $request -> profile;
-        $user -> dob = $request -> dob;
-        $user -> phone = $request -> phone;
-        $user -> address = $request -> address;
-        //$user -> create_user_id = Auth::user()->id;
-        $user -> create_user_id = 1;
-        $user -> updated_user_id = 1;
-        $user -> deleted_user_id =  null;
-        $user -> created_at = now();
-        $user -> updated_at = now();
-        $user -> deleted_at = null;
+        $user -> profile = $fileName;
+        
+        $user -> create_user_id = Auth::user()->id;
+        $user -> updated_user_id = Auth::user()->id;
+     
         $user->save();
     }
 
@@ -52,14 +57,27 @@ class UserDao implements UserDaoInterface
         $user = User::find($request->id);
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->profile = "avatar.jpg";
         $user->type = $request->type;
-        $user->phone = $request->phone;
-        $user->address = $request->address;
-        //$user ->updated_user_id = Auth::user()->id;
-        $user ->updated_user_id = 1;
-        $user->updated_at = now();
 
+
+        if ($request->profile) {
+            $exploded = explode(',', $request->profile);
+            $decoded = base64_decode($exploded[1]);
+            if (str_contains($exploded[0], 'jpeg')) {
+                $extension = 'jpg';
+            } else {
+                $extension = 'png';
+            }
+            $fileName = time().'.'.$extension;
+            $path = public_path().'/images/'.$fileName;
+            file_put_contents($path, $decoded);
+            $user->profile = $profile;
+        }
+
+        
+        $user ->updated_user_id = Auth::user()->id;
+        $user ->updated_user_id = Auth::user()->id;
+        $user->updated_at = now();
         return $user->save();
     }
 
@@ -70,8 +88,7 @@ class UserDao implements UserDaoInterface
     public function userDelete($id)
     {
         $delete_id = User::find($id);
-        //$delete_id->deleted_user_id = Auth::user()->id;
-        $delete_id->deleted_user_id = 1;
+        $delete_id->deleted_user_id = Auth::user()->id;
         $delete_id->deleted_at = now();
         $delete_id->save();
     }
@@ -84,7 +101,6 @@ class UserDao implements UserDaoInterface
     {
         Auth::user()->password = bcrypt($password);
         Auth::user()->updated_user_id = Auth::user()->id;
-        Auth::user()->updated_user_id = 1;
         Auth::user()->updated_at = now();
         Auth::user()->save();
     }

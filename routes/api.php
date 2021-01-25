@@ -14,54 +14,44 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->all();
-});
-
-Route::get('post/list', 'Api\PostController@detail');
-
-Route::post('/post/create', 'Api\PostController@confirmPost');
-
-Route::post('/post/createConfirm', 'Api\PostController@insert');
-
-Route::post('/post/updateConfirm', 'Api\PostController@updateConfirm');
-
-Route::post('/post/update', 'Api\PostController@updatePost');
-
-Route::delete("/post/delete/{id}", 'Api\PostController@delete');
-
-Route::post('/post/import', 'Api\PostController@import');
-
-Route::post('/changePassword', 'Api\UserController@passwordChange');
-
-
-
-
-
+//login
 Route::post('/auth/login', 'Api\LoginController@login');
 
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('get-details', 'Api\LoginController@getDetails');
-});
+//logout
+Route::middleware('auth:api')->post('/auth/logout', 'Api\LoginController@logout');
 
-Route::group([
-      'middleware' => 'auth:api'
-    ], function () {
-        Route::get('logout', 'LoginController@logout');
-        Route::get('user', 'LoginController@user');
-    });
- /**
+//post List
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/post/list', 'Api\PostController@detail');
+
+    Route::post('/post/create', 'Api\PostController@confirmPost');
+        
+    Route::post('/post/createConfirm', 'Api\PostController@insert');
+
+    Route::post('/post/updateConfirm', 'Api\PostController@updateConfirm');
+        
+    Route::post('/post/update', 'Api\PostController@updatePost');
+        
+    Route::delete("/post/delete/{id}", 'Api\PostController@delete');
+        
+    Route::post('/post/import', 'Api\PostController@import');
+});
+  /**
   * User
   *
   */
-Route::get('user/list', 'Api\UserController@userList');
+  Route::group(['middleware' => 'auth:api'], function () {
+      Route::get('user/list', 'Api\UserController@userList');
 
-Route::post('/user/create', 'Api\UserController@userConfirm');
+      Route::post('/user/create', 'Api\UserController@userConfirm');
 
-Route::post('/user/create/confirm', 'Api\UserController@userInsert');
+      Route::post('/user/create/confirm', 'Api\UserController@userInsert');
 
-Route::delete('/user/delete/{id}', 'Api\UserController@userDelete');
+      Route::delete('/user/delete/{id}', 'Api\UserController@userDelete');
 
-Route::post('/user/updateConfirm', 'Api\UserController@updateConfirm');
+      Route::post('/user/updateConfirm', 'Api\UserController@updateConfirm');
 
-Route::post('/user/update', 'Api\UserController@update');
+      Route::post('/user/update', 'Api\UserController@update');
+      Route::post('/changePassword', 'Api\UserController@passwordChange');
+  });

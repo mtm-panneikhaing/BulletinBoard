@@ -5,7 +5,7 @@ namespace App\Contracts\Dao\Post;
 interface PostDaoInterface
 {
     //get post list
-    public function getPostList($request);
+    public function getPostList();
 
     //insert Post
     public function insertPost($request);
