@@ -89,7 +89,6 @@ class UserController extends Controller
      */
     public function userDelete($id)
     {
-        //$id = $request->id;
         $this->userInterface->userDelete($id);
         return request()->json("Delete User Successful");
     }

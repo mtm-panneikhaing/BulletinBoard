@@ -37,7 +37,6 @@ class LoginController extends Controller
         Auth::user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
-
         return response()->json('Successfully logged out');
     }
 }
