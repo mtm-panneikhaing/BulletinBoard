@@ -99,16 +99,12 @@ class UserController extends Controller
      */
     public function passwordChange(Request $request)
     {
-        $validator = validator(request()->all(), [
+        $request -> validate([
             "old_password" =>'required',
             "new_password" =>'required|string|min:6',
             "con_new_password" =>'required|same:new_password',
-
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator);
-        }
         $user = User::find(1);
         if (Hash::check($request->old_password, $user->password)) {
             $user->password = Hash::make($request->new_password);
@@ -117,6 +113,8 @@ class UserController extends Controller
             $result = $user->save();
             return response()->json($result, 200);
         }
+
+        return response()->json($result, 200);
     }
     
     /**

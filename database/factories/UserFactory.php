@@ -23,6 +23,7 @@ $factory->define(User::class, function (Faker $faker) {
             "email" => "admin@gmail.com",
             "password" =>bcrypt("123456"),
             "profile" => "avatar.jpg",
+            "profilePath" => "http://localhost:8000/images/avatar.jpg",
             "type" => 0,
             "phone" => "09790753070",
             "address" => "Tarmwe, Yangon",

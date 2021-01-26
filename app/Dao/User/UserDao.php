@@ -41,6 +41,7 @@ class UserDao implements UserDaoInterface
         $user -> type = $request -> type;
         $user -> password = bcrypt($request -> password);
         $user -> profile = $fileName;
+        $user->profilePath = env('App_URL').'/images/' . $fileName;
         
         $user -> create_user_id = Auth::user()->id;
         $user -> updated_user_id = Auth::user()->id;
@@ -59,7 +60,6 @@ class UserDao implements UserDaoInterface
         $user->email = $request->email;
         $user->type = $request->type;
 
-
         if ($request->profile) {
             $exploded = explode(',', $request->profile);
             $decoded = base64_decode($exploded[1]);
@@ -71,10 +71,12 @@ class UserDao implements UserDaoInterface
             $fileName = time().'.'.$extension;
             $path = public_path().'/images/'.$fileName;
             file_put_contents($path, $decoded);
-            $user->profile = $profile;
+            $user->profile = $fileName;
+            $user->profilePath = env('App_URL').'/images/'. $fileName;
         }
-
-        
+        $user->phone = $request->phone;
+        $user->dob = $request->dob;
+        $user->address = $request->address;
         $user ->updated_user_id = Auth::user()->id;
         $user ->updated_user_id = Auth::user()->id;
         $user->updated_at = now();
