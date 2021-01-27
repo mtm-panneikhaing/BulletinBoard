@@ -50,9 +50,9 @@ class UserService implements UserServiceInterface
      * Password Change
      * @param Password
      */
-    public function passwordChange($password)
+    public function passwordChange($request)
     {
-        return $this->userDao->passwordChange($password);
+        return $this->userDao->passwordChange($request);
     }
 
     /**

@@ -42,7 +42,7 @@ class UserController extends Controller
     {
         $request -> validate([
             'name' => 'required',
-            'email' => 'required', 'string', 'email', 'max:255', 'unique:users',
+            'email' => 'required', 'string', 'email', 'max:255', 'unique:users,email',
             'password' => 'required', 'string', 'min:8', 'confirmed',
             'password_confirm' => 'required|same:password',
             'profile' => 'required',
@@ -105,15 +105,11 @@ class UserController extends Controller
             "con_new_password" =>'required|same:new_password',
         ]);
 
-        $user = User::find(1);
-        if (Hash::check($request->old_password, $user->password)) {
-            $user->password = Hash::make($request->new_password);
-            $user->updated_user_id = Auth::user()->id;
-            $user->updated_at = now();
-            $result = $user->save();
-            return response()->json($result, 200);
+        $user = User::find(Auth::id());
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json(['message' => 'The old password field is incorrect'], 422);
         }
-
+        $result = $this->userInterface->passwordChange($request);
         return response()->json($result, 200);
     }
     

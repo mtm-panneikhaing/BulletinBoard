@@ -17,7 +17,7 @@ interface UserDaoInterface
   public function userDelete($id);
 
   //password change
-  public function passwordChange($password);
+  public function passwordChange($request);
 
   //user search
   public function userSearch($request);

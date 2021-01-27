@@ -3,6 +3,7 @@
 namespace App\Dao\User;
 
 use App\Contracts\Dao\User\UserDaoInterface;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 use Auth;
 
@@ -99,12 +100,13 @@ class UserDao implements UserDaoInterface
      * Password Change
      * @param $password
      */
-    public function passwordChange($password)
+    public function passwordChange($request)
     {
-        Auth::user()->password = bcrypt($password);
-        Auth::user()->updated_user_id = Auth::user()->id;
-        Auth::user()->updated_at = now();
-        Auth::user()->save();
+        $user = User::find(Auth::id());
+        $user->password = bcrypt($request->new_password);
+        $user->updated_user_id = Auth::id();
+        $user->updated_at =now();
+        return $user->save();
     }
 
     /**

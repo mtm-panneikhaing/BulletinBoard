@@ -4,21 +4,21 @@ namespace App\Contracts\Services\User;
 
 interface UserServiceInterface
 {
-  //get user list
-  public function getUserList();
+    //get user list
+    public function getUserList();
 
-  //user insert
-  public function userInsert($request);
+    //user insert
+    public function userInsert($request);
 
-  //update user
-  public function updateUser($request);
+    //update user
+    public function updateUser($request);
 
-  //user delete
-  public function userDelete($id);
+    //user delete
+    public function userDelete($id);
 
-  //password change
-  public function  passwordChange($password);
+    //password change
+    public function passwordChange($request);
 
-  //user search
-  public function userSearch($request);
+    //user search
+    public function userSearch($request);
 }
