@@ -16,7 +16,7 @@ class LoginController extends Controller
 
     /**
     * login api
-    *
+    * login api
     * @return \Illuminate\Http\Response
     */
     public function login()
